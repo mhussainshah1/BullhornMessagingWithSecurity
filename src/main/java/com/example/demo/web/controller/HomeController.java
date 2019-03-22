@@ -161,4 +161,26 @@ public class HomeController {
     public String getAbout(){
         return "about";
     }
+
+    @RequestMapping("/myprofile")
+    public String getProfile(Principal principal, Model model){
+        User myuser = ((CustomerUserDetails)
+                ((UsernamePasswordAuthenticationToken) principal)
+                        .getPrincipal())
+                .getUser();
+        model.addAttribute("myuser", myuser);
+        return "profile";
+    }
+
+    @RequestMapping("/followers")
+    public String getFollowers(Model model){
+        model.addAttribute("message", "My Followers");
+        return "followlist";
+    }
+
+    @RequestMapping("/following")
+    public String getFollowing(Model model){
+        model.addAttribute("message", "People I`m Following");
+        return "followlist";
+    }
 }

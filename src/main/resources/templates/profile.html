@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="base::header">
+    <title>profile</title>
+</head>
+
+<body>
+<div th:replace="base::nav"></div>
+<div align="center" class="container">
+    <div class="jumbotron lead">
+        <h2 align="center" th:text="${myuser.firstName} +' ' +${myuser.lastName}"></h2>
+    </div>
+
+    <div>
+        Username: <span th:text="${myuser.username}"></span><br/>
+        email:<span th:text="${myuser.email}"></span><br/>
+        <img src="" alt="picture">
+    </div>
+</div>
+
+<div th:replace="base::footer"></div>
+</body>
+</html>
