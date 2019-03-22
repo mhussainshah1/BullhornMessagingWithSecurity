@@ -50,11 +50,11 @@
             <td sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('USER')">
                     <span th:if="${user_id == message.user.id}">
-                        <a th:href="@{/updatecar/{id}(id=${message.id})}">edit</a>
+                        <a th:href="@{/update/{id}(id=${message.id})}">edit</a>
                     </span>
                 </div>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/updatecar/{id}(id=${message.id})}">edit</a> -
+                    <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
                     <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
                 </div>
             </td>
