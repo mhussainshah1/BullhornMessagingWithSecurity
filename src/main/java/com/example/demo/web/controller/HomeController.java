@@ -9,6 +9,7 @@ import com.example.demo.business.entities.repositories.CourseRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.services.CloudinaryConfig;
 import com.example.demo.business.services.UserService;
+import com.example.demo.business.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -169,6 +170,7 @@ public class HomeController {
                         .getPrincipal())
                 .getUser();
         model.addAttribute("myuser", myuser);
+        model.addAttribute("HASH", MD5Util.md5Hex(myuser.getEmail()));
         return "profile";
     }
 

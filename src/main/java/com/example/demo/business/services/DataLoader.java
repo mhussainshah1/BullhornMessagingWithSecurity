@@ -46,6 +46,10 @@ public class DataLoader implements CommandLineRunner {
         user.setRoles(Arrays.asList(userRole));
         userRepository.save(user);
 
+        user = new User("mhussainshah79@gmail.com", "Pa$$word2019", "muhammad", "shah",true,"moe");
+        user.setRoles(Arrays.asList(userRole));
+        userRepository.save(user);
+
         user = new User("admin@admin.com","Pa$$word2019","Admin","User",true,"admin");
         user.setRoles(Arrays.asList(adminRole));
         userRepository.save(user);
