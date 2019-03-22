@@ -19,7 +19,7 @@
                 <th>Title</th>
                 <th>Content</th>
                 <th>Posted Date</th>
-                <th>Posted By</th><!--<th>Instructor</th>-->
+                <th>Posted By</th>
                 <th>Picture</th>
                 <th sec:authorize="hasAuthority('ADMIN')">Actions</th>
             </tr>
@@ -37,7 +37,7 @@
             <td th:text="*{postedDate}"></td><!--<td th:text = "${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></td>-->
             <!--Todo: change into date and time-->
             <td>
-                <a th:href="@{/user/{id}(id=*{user.id})}">[[*{postedBy}]]</a>
+                <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
             </td>
 
             <td><img class ="icon" th:src="*{picturePath}" alt="Picture"></td>

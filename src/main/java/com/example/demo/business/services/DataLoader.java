@@ -58,34 +58,30 @@ public class DataLoader implements CommandLineRunner {
         Message message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
                 LocalDate.of(2019, 05, 15),
-                user1.getFirstName(),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png");
-        message.setUser(user1);
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png",
+                user1);
         messageRepository.save(message);
 
          message = new Message("Today is holiday",
                 "Dave wants to give holiday because we did good in class",
                 LocalDate.now(),
-                user2.getFirstName(),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1550870732/blog/shah.jpg");
-        message.setUser(user2);
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1550870732/blog/shah.jpg",
+                 user2);
         messageRepository.save(message);
 
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
                 LocalDate.of(2019, 02, 14),
-                user3.getFirstName(),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png");
-        message.setUser(user3);
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png",
+                user3);
         messageRepository.save(message);
 
         message = new Message("Independence Day",
                 "I am proud to be an American where at least i am free. " +
                         "I wont forget men who die gave that right to me",
                 LocalDate.of(2019, 07, 04),
-                user4.getFirstName(),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg");
-        message.setUser(user4);
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg",
+                user4);
         messageRepository.save(message);
 
 

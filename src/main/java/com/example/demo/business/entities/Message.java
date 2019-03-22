@@ -35,10 +35,6 @@ public class Message {
     private LocalDate postedDate;
 
     @NonNull
-    @Size(min = 3)
-    private String postedBy;
-
-    @NonNull
     //@Size(min = 4)
     private String picturePath;
 
@@ -53,14 +49,15 @@ public class Message {
     public Message(@Size(min = 4) String title,
                    @Size(min = 10) String content,
                    LocalDate postedDate,
-                   @Size(min = 4) String postedBy,
-                   @Size(min = 4) String picturePath) {
+                   String picturePath,
+                   User user) {
         this.title = title;
         this.content = content;
         this.postedDate = postedDate;
-        this.postedBy = postedBy;
         this.picturePath = picturePath;
+        this.user = user;
     }
+
 
     public long getId() {
         return id;
@@ -94,14 +91,6 @@ public class Message {
         this.postedDate = postedDate;
     }
 
-    public String getPostedBy() {
-        return postedBy;
-    }
-
-    public void setPostedBy(String postedBy) {
-        this.postedBy = postedBy;
-    }
-
     public String getPicturePath() {
         return picturePath;
     }
@@ -123,7 +112,7 @@ public class Message {
         String string = "[Title = " + title +
                 ", Content = "+ content +
                 ", Posted Date = " + postedDate +
-                ", Posted By =" + postedBy +
+                ", Posted By =" + user.getFirstName() +
                 ", Picture Path = " + picturePath +"]";
         return  string;
     }
