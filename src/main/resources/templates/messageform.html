@@ -6,6 +6,7 @@
 
 <body>
 <div th:replace="base::nav"></div>
+
 <div align="center" class="container">
     <div class="jumbotron lead">
         <h2 align="center">Blog</h2>
@@ -22,8 +23,8 @@
 
             <tr>
                 <td> Post By:</td>
-                <td><input th:field="*{postedBy}" type="text"/></td>
-                <td><span th:errors="*{postedBy}" th:if="${#fields.hasErrors('postedBy')}"></span></td>
+                <td colspan="2"><label th:text="${user.firstName}"></label></td>
+                <td></td>
             </tr>
 
             <tr>

@@ -95,7 +95,12 @@ public class HomeController {
     }
 
     @GetMapping("/add")
-    public String messageForm(Model model) {
+    public String messageForm(Principal principal, Model model){
+        User myuser = ((CustomerUserDetails)
+                ((UsernamePasswordAuthenticationToken) principal)
+                        .getPrincipal())
+                .getUser();
+        model.addAttribute("user", myuser);
         model.addAttribute("message", new Message());
         return "messageform";
     }

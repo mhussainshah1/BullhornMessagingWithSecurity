@@ -44,6 +44,7 @@ public class Message {
 
     public Message() {
         postedDate = LocalDate.now();
+        user = new User();
     }
 
     public Message(@Size(min = 4) String title,
