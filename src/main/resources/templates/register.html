@@ -12,7 +12,9 @@
 <div th:replace="base::nav"></div>
 
 <div align="center" class="container col-md-6 col-md-offset-3">
-    <h2>New User Registration</h2>
+    <div class="jumbotron lead">
+        <h2 align="center">Registration</h2>
+    </div>
     <form action="#" autocomplete="off" method="post" th:action="@{/register}" th:object="${user}">
 
         <p class="error-message"

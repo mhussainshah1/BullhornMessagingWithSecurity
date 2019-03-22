@@ -1,27 +1,48 @@
 package com.example.demo.web.controller;
 
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.business.CustomerUserDetails;
 import com.example.demo.business.entities.Course;
+import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.CourseRepository;
+import com.example.demo.business.entities.repositories.MessageRepository;
+import com.example.demo.business.services.CloudinaryConfig;
 import com.example.demo.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.Map;
 
 @Controller
 public class HomeController {
     @Autowired
-    CourseRepository courseRepository;
+    MessageRepository messageRepository;
+
+    @Autowired
+    CloudinaryConfig cloudc;
 
     @Autowired
     UserService userService;
+
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgetPassword(){
+        return "/";
+    }
 
     @GetMapping("/register")
     public String showRegistrationPage(Model model){
@@ -43,18 +64,14 @@ public class HomeController {
         return "login";
     }
 
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
-
     //ASK DAVE!!!
     @RequestMapping("/admin")
     public String admin(){
         return "admin";
     }
 
-    //ASK DAVE!!!
+    //AUXILLARY FUNCTION!!!
+    //Use the below code INSIDE METHOD to pass user into view
     @RequestMapping("/secure")
     public String secure(Principal principal, Model model){
         User myuser = ((CustomerUserDetails)
@@ -66,57 +83,78 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String listCourses(Model model) {
-        model.addAttribute("courses", courseRepository.findAll()); //generate select * statement
-       if(userService.getUser() != null){
+    public String listMessages(Model model) {
+        model.addAttribute("messages", messageRepository.findAll());//generate select * statement
+        if(userService.getUser() != null){
            model.addAttribute("user_id", userService.getUser().getId());
        }
        return "list";
     }
 
     @GetMapping("/add")
-    public String courseForm(Model model) {
-        model.addAttribute("course", new Course());
-        return "courseform";
+    public String messageForm(Model model) {
+        model.addAttribute("message", new Message());
+        return "messageform";
     }
 
     @PostMapping("/process")
-    public String processForm(@Valid Course course, BindingResult result) {
-        if (result.hasErrors()) {
-            return "courseform";
+    public String processForm(@Valid @ModelAttribute("message") Message message,
+                              BindingResult result,
+                              @RequestParam("file") MultipartFile file) {
+        System.out.println("object = " + message );
+        //check for errors on the form
+        if (result.hasErrors() ){
+            for (ObjectError e : result.getAllErrors()){
+                System.out.println(e);
+            }
+            return "messageform";
         }
 
-        course.setUser(userService.getUser());
-        courseRepository.save(course);//generate SQL statement and insert into database
+        //if there is a picture path and file is empty then save message
+        if(message.getPicturePath() != null && file.isEmpty()){
+            messageRepository.save(message);
+            return "redirect:/";
+        }
+
+        if( file.isEmpty()){
+            return "messageform";
+        }
+        Map uploadResult;
+        try {
+            uploadResult = cloudc.upload(
+                    file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/messageform";
+        }
+        String url = uploadResult.get("url").toString();
+        message.setPicturePath(url);
+        message.setUser(userService.getUser());
+        messageRepository.save(message);
         return "redirect:/";
     }
 
     @RequestMapping("/detail/{id}")
-    public String showCourse(@PathVariable("id") long id, Model model) {
-        model.addAttribute("course", courseRepository.findById(id).get());
+    public String showMessage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("message", messageRepository.findById(id).get());
         return "show";
     }
 
     @RequestMapping("/update/{id}")
-    public String updateCourse(@PathVariable("id") long id, Model model) {
-        model.addAttribute("course", courseRepository.findById(id).get());
-        return "courseform";
+    public String updateMessage(@PathVariable("id") long id, Model model) {
+        model.addAttribute("message", messageRepository.findById(id).get());
+        return "messageform";
     }
 
     @RequestMapping("/delete/{id}")
-    public String delCourse(@PathVariable("id") long id){
-        courseRepository.deleteById(id);
+    public String deleteMessage(@PathVariable("id") long id){
+        messageRepository.deleteById(id);
         return "redirect:/";
     }
 
     @GetMapping("/termsandconditions")
     public String getTermsAndCondition(){
         return "termsandconditions";
-    }
-
-    @PostMapping("/forgot-password")
-    public String forgetPassword(){
-        return "/";
     }
 
     @GetMapping("/about")

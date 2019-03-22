@@ -8,29 +8,36 @@
 <body>
 <div th:replace="base::nav"></div>
 <br/>
-<div align="center" class="container">
-    <h2>Course Details</h2><br/>
+<div class="container" align="center">
+    <h2>Blog Details</h2>
     <table class="table">
         <tr>
             <td>Title:</td>
-            <td><span th:text="${course.title}"></span><br/></td>
+            <td><span th:text="${message.title}"></span></td>
         </tr>
         <tr>
-            <td>Instructor:</td>
-            <td><span th:text="${course.instructor}"></span><br/></td>
+            <td>Content:</td>
+            <td><span th:text="${message.content}"></span></td>
         </tr>
         <tr>
-            <td>Description:</td>
-            <td><span th:text="${course.description}"></span><br/></td>
+            <td>Posted Date:</td>
+            <td><span th:text="${message.postedDate}"></span></td>
+            <!--<span th:text="${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></span><br/>-->
         </tr>
         <tr>
-            <td>Credits:</td>
-            <td><span th:text="${course.credit}"></span><br/></td>
+            <td>Posted By:</td>
+            <td><span th:text="${message.postedBy}"></span></td>
+        </tr>
+        <tr>
+            <td>Picture:</td>
+            <td><img class ="profile-picture"
+                     th:src="${message.picturePath}"
+                     th:alt = "Picture"> <!-- th:text="${message.picturePath}" --><td>
         </tr>
     </table>
     <div sec:authorize="hasAuthority('ADMIN')">
-        <a th:href="@{/update/{id}(id=${course.id})}">Edit</a> - <!-- Update -->
-        <a th:href="@{/delete/{id}(id=${course.id})}">Delete</a>
+        <a th:href="@{/update/{id}(id=${message.id})}">Edit</a> - <!-- Update -->
+        <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
     </div>
 </div>
 <br/>

@@ -1,9 +1,11 @@
 package com.example.demo.business.services;
 
 import com.example.demo.business.entities.Course;
+import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.Role;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.CourseRepository;
+import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
 import com.example.demo.business.services.UserService;
@@ -12,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @Component
@@ -26,7 +29,7 @@ public class DataLoader implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    CourseRepository repository;
+    MessageRepository repository;
 
     @Autowired
     UserService userService;
@@ -47,16 +50,37 @@ public class DataLoader implements CommandLineRunner {
         user.setRoles(Arrays.asList(adminRole));
         userRepository.save(user);
 
-        Course course = new Course("Astrophysics", "Neli D Tyson", "Just a course on stars", 3);
-        course.setUser(user);
-        repository.save(course);
+        Message message = new Message("Today is holiday",
+                "Dave wants to give holiday because we did good in class",
+                LocalDate.now(),
+                "Muhammad",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1550870732/blog/shah.jpg");
+        message.setUser(user);
+        repository.save(message);
 
-        course = new Course("Calculus", "Carol Henley", "Rate of change of rate of change", 3);
-        course.setUser(user);
-        repository.save(course);
+        message = new Message("Valentines Day",
+                "I am still looking for someone to come in my life",
+                LocalDate.of(2019, 02, 14),
+                "Victor",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png");
+        message.setUser(user);
+        repository.save(message);
 
-        course = new Course("Freshman English", "Geraldine Pegram", "Learn your language chilern", 3);
-        course.setUser(user);
-        repository.save(course);
+        message = new Message("Independence Day",
+                "I am proud to be an American where at least i am free. " +
+                        "I wont forget men who die gave that right to me",
+                LocalDate.of(2019, 07, 04),
+                "Toyelani",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg");
+        message.setUser(user);
+        repository.save(message);
+
+        message = new Message("Mother's Day",
+                "Happy mother day to the most loving mom in the world",
+                LocalDate.of(2019, 05, 15),
+                "Melisa",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png");
+        message.setUser(user);
+        repository.save(message);
     }
 }

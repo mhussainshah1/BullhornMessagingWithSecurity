@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base::header">
+    <title>Message Form</title>
+</head>
+
+<body>
+<div th:replace="base::nav"></div>
+<div align="center" class="container">
+    <div class="jumbotron lead">
+        <h2 align="center">Blog</h2>
+    </div>
+
+    <form action="#" enctype="multipart/form-data"   method="post"  th:action="@{/process}"  th:object="${message}">
+        <table class="table">
+            <input th:field="*{id}" type="hidden"/>
+            <tr>
+                <td> Title:</td>
+                <td><input th:field="*{title}" type="text"/></td>
+                <td><span th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></span></td>
+            </tr>
+
+            <tr>
+                <td> Post By:</td>
+                <td><input th:field="*{postedBy}" type="text"/></td>
+                <td><span th:errors="*{postedBy}" th:if="${#fields.hasErrors('postedBy')}"></span></td>
+            </tr>
+
+            <tr>
+                <td> Content:</td>
+                <td><textarea th:field="*{content}"></textarea></td>
+                <td><span th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></span></td>
+            </tr>
+
+            <tr>
+                <td> Post Date:</td>
+                <td colspan="2"> <label th:field="*{postedDate}"
+                                       th:text="*{postedDate}"></label></td>
+            </tr>
+            <tr>
+                <td> Picture:</td>
+                <td>
+                    <!--<span th:if="*{picturePath} == null">-->
+                        <input name="file" type="file"/>
+                    <!--</span>-->
+                </td>
+                <td></td>
+            </tr>
+                <tr th:if="*{picturePath} != null">
+                    <td><input th:field="*{picturePath}" type ="hidden"><!--[[*{picturePath}]]--></td>
+                    <td><img class="profile-picture"  th:alt="Picture"  th:src="*{picturePath}" /><br/></td>
+                    <td><span th:errors="*{picturePath}" th:if="${#fields.hasErrors('picturePath')}"></span></td>
+                </tr>
+            <tr>
+                <td align="center" colspan="3"><input text="Submit" type="submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<br/>
+<div th:replace="base::footer"></div>
+</body>
+</html>

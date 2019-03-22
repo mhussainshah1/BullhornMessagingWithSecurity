@@ -17,3 +17,25 @@
     color: red;
     font-style: Italic;
 }
+
+/*img{
+    width: 30px;
+    height: 30px;
+}*/
+
+.home-page-picture {
+    width: 30px;
+    height: 30px;
+}
+
+.icon {
+    width: 42px;
+    height: 42px;
+    border: 0;
+}
+
+.profile-picture {
+    width: 350px;
+    height: 350px;
+    border: 0;
+}

@@ -35,7 +35,10 @@ public class Course {
     public Course() {
     }
 
-    public Course(@Size(min = 4) String title, @Size(min = 3) String instructor, @Size(min = 10) String description, @Min(3) int credit) {
+    public Course(@Size(min = 4) String title,
+                  @Size(min = 3) String instructor,
+                  @Size(min = 10) String description,
+                  @Min(3) int credit) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
