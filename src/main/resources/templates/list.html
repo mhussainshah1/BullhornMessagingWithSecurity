@@ -30,9 +30,16 @@
                 <input type="checkbox">
             </td>
             <td th:text="*{title}"></td>
-            <td><a th:href="@{/detail/{id}(id=*{id})}">[[*{content}]]</a></td>
+            <td>
+                <a th:href="@{/detail/{id}(id=*{id})}">[[*{content}]]</a>
+            </td>
+
             <td th:text="*{postedDate}"></td><!--<td th:text = "${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></td>-->
-            <td th:text="*{postedBy}"></td>
+            <!--Todo: change into date and time-->
+            <td>
+                <a th:href="@{/user/{id}(id=*{user.id})}">[[*{postedBy}]]</a>
+            </td>
+
             <td><img class ="icon" th:src="*{picturePath}" alt="Picture"></td>
             <td sec:authorize="hasAuthority('ADMIN')">
                 <a th:href="@{/update/{id}(id=*{id})}">edit</a>-<!-- Update -->

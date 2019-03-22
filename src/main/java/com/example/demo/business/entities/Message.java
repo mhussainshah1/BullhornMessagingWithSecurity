@@ -35,7 +35,7 @@ public class Message {
     private LocalDate postedDate;
 
     @NonNull
-    @Size(min = 4)
+    @Size(min = 3)
     private String postedBy;
 
     @NonNull

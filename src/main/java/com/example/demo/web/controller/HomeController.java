@@ -2,11 +2,10 @@ package com.example.demo.web.controller;
 
 import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.business.CustomerUserDetails;
-import com.example.demo.business.entities.Course;
 import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
-import com.example.demo.business.entities.repositories.CourseRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
+import com.example.demo.business.entities.repositories.UserRepository;
 import com.example.demo.business.services.CloudinaryConfig;
 import com.example.demo.business.services.UserService;
 import com.example.demo.business.util.MD5Util;
@@ -28,6 +27,9 @@ import java.util.Map;
 public class HomeController {
     @Autowired
     MessageRepository messageRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     CloudinaryConfig cloudc;
@@ -169,7 +171,7 @@ public class HomeController {
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
                 .getUser();
-        model.addAttribute("myuser", myuser);
+        model.addAttribute("user", myuser);
         model.addAttribute("HASH", MD5Util.md5Hex(myuser.getEmail()));
         return "profile";
     }
@@ -184,5 +186,13 @@ public class HomeController {
     public String getFollowing(Model model){
         model.addAttribute("message", "People I`m Following");
         return "followlist";
+    }
+
+    @RequestMapping("/user/{id}")
+    public String getUser(@PathVariable("id") long id, Model model){
+        User user = userRepository.findById(id).get();
+        model.addAttribute("user", user );
+        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail()));
+        return "profile";
     }
 }

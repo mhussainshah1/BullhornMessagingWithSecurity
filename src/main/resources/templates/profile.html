@@ -11,19 +11,19 @@
 <div th:replace="base::nav"></div>
 <div align="center" class="container">
     <div class="jumbotron lead">
-        <h2 align="center" th:text="${myuser.firstName} +' ' +${myuser.lastName}"></h2>
+        <h2 align="center" th:text="${user.firstName} +' ' +${user.lastName}"></h2>
     </div>
 
     <div>
         <strong>
-            <span th:text="${myuser.username}"></span>
+            <span th:text="${user.username}"></span>
         </strong><br/>
-        <span th:text="${myuser.email}"></span>
+        <span th:text="${user.email}"></span>
         <br/>
         <br/>
         <img id="gravatar"
              th:src="@{'http://gravatar.com/avatar/' + ${HASH} + '?s=200'}"
-             th:alt="|${myuser.firstName}  ${myuser.lastName}|" >
+             th:alt="|${user.firstName}  ${user.lastName}|" >
     </div>
 </div>
 
