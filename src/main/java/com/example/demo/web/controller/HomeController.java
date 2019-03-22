@@ -101,6 +101,9 @@ public class HomeController {
                         .getPrincipal())
                 .getUser();
         model.addAttribute("user", myuser);
+//        if(userService.getUser() != null){
+//            model.addAttribute("user_id", userService.getUser().getId());
+//        }
         model.addAttribute("message", new Message());
         return "messageform";
     }
@@ -145,12 +148,18 @@ public class HomeController {
     @RequestMapping("/detail/{id}")
     public String showMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
+        if(userService.getUser() != null){
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         return "show";
     }
 
     @RequestMapping("/update/{id}")
     public String updateMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
+        if(userService.getUser() != null){
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
         return "messageform";
     }
 

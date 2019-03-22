@@ -39,49 +39,45 @@ public class DataLoader implements CommandLineRunner {
         Role adminRole = roleRepository.findByRole("ADMIN");
         Role userRole=roleRepository.findByRole("USER");
 
-        User user1 = new User("jim@jim.com", "Pa$$word2019", "Jim", "Jimmerson",true,"jim");
-        user1.setRoles(Arrays.asList(userRole));
-        userRepository.save(user1);
-
-        User user2 = new User("mhussainshah79@gmail.com", "Pa$$word2019", "Muhammad", "Shah",true,"moe");
-        user2.setRoles(Arrays.asList(userRole));
-        userRepository.save(user2);
-
-        User user3 = new User("admin@admin.com","Pa$$word2019","Admin","User",true,"admin");
-        user3.setRoles(Arrays.asList(adminRole));
-        userRepository.save(user3);
-
-        User user4 = new User("toyelani@gmail.com","Pa$$word2019","Toyelani","Obedongo",true,"toyelani");
-        user4.setRoles(Arrays.asList(userRole));
-        userRepository.save(user4);
-
+        User user = new User("jim@jim.com", "Pa$$word2019", "Jim", "Jimmerson",true,"jim");
+        user.setRoles(Arrays.asList(userRole));
+        userRepository.save(user);
         Message message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
                 LocalDate.of(2019, 05, 15),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png",
-                user1);
+                user);
         messageRepository.save(message);
 
-         message = new Message("Today is holiday",
+        user = new User("mhussainshah79@gmail.com", "Pa$$word2019", "Muhammad", "Shah",true,"moe");
+        user.setRoles(Arrays.asList(userRole));
+        userRepository.save(user);
+        message = new Message("Today is holiday",
                 "Dave wants to give holiday because we did good in class",
                 LocalDate.now(),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1550870732/blog/shah.jpg",
-                 user2);
+                user);
         messageRepository.save(message);
 
+        user = new User("admin@admin.com","Pa$$word2019","Admin","User",true,"admin");
+        user.setRoles(Arrays.asList(adminRole));
+        userRepository.save(user);
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
                 LocalDate.of(2019, 02, 14),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png",
-                user3);
+                user);
         messageRepository.save(message);
 
+        user = new User("toyelani@gmail.com","Pa$$word2019","Toyelani","Obedongo",true,"toyelani");
+        user.setRoles(Arrays.asList(userRole));
+        userRepository.save(user);
         message = new Message("Independence Day",
                 "I am proud to be an American where at least i am free. " +
                         "I wont forget men who die gave that right to me",
                 LocalDate.of(2019, 07, 04),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg",
-                user4);
+                user);
         messageRepository.save(message);
 
 
