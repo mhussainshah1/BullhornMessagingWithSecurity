@@ -85,7 +85,7 @@ public class HomeController {
         return "secure";
     }
 
-    @RequestMapping("/")
+    @PostMapping("/")
     public String listMessages(Model model) {
         model.addAttribute("messages", messageRepository.findAll());//generate select * statement
         if(userService.getUser() != null){
@@ -94,7 +94,7 @@ public class HomeController {
        return "list";
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public String messageForm(Principal principal, Model model){
         User myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
@@ -160,12 +160,12 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/termsandconditions")
+    @RequestMapping("/termsandconditions")
     public String getTermsAndCondition(){
         return "termsandconditions";
     }
 
-    @GetMapping("/about")
+    @RequestMapping("/about")
     public String getAbout(){
         return "about";
     }
