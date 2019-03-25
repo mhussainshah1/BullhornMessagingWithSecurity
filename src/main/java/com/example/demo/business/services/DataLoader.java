@@ -1,8 +1,10 @@
 package com.example.demo.business.services;
 
+import com.example.demo.business.entities.InvalidPassword;
 import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.Role;
 import com.example.demo.business.entities.User;
+import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
@@ -31,17 +33,20 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     UserService userService;
 
+    @Autowired
+    InvalidPasswordRepository invalidPasswordRepository;
+
     @Override
     public void run(String... args) throws Exception {
         roleRepository.save(new Role("USER"));
         roleRepository.save(new Role("ADMIN"));
 
-        Role adminRole = roleRepository.findByRole("ADMIN");
-        Role userRole=roleRepository.findByRole("USER");
+        invalidPasswordRepository.save(new InvalidPassword("azerty12!"));
+        invalidPasswordRepository.save(new InvalidPassword("12345678!"));
+        invalidPasswordRepository.save(new InvalidPassword("password123"));
 
         User user = new User("jim@jim.com", "Pa$$word2019", "Jim", "Jimmerson",true,"jim");
-        user.setRoles(Arrays.asList(userRole));
-        userRepository.save(user);
+        userService.saveUser(user);
         Message message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
                 LocalDate.of(2019, 05, 15),
@@ -50,8 +55,7 @@ public class DataLoader implements CommandLineRunner {
         messageRepository.save(message);
 
         user = new User("mhussainshah79@gmail.com", "Pa$$word2019", "Muhammad", "Shah",true,"moe");
-        user.setRoles(Arrays.asList(userRole));
-        userRepository.save(user);
+        userService.saveUser(user);
         message = new Message("Today is holiday",
                 "Dave wants to give holiday because we did good in class",
                 LocalDate.now(),
@@ -60,8 +64,7 @@ public class DataLoader implements CommandLineRunner {
         messageRepository.save(message);
 
         user = new User("admin@admin.com","Pa$$word2019","Admin","User",true,"admin");
-        user.setRoles(Arrays.asList(adminRole));
-        userRepository.save(user);
+        userService.saveUser(user);
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
                 LocalDate.of(2019, 02, 14),
@@ -70,8 +73,7 @@ public class DataLoader implements CommandLineRunner {
         messageRepository.save(message);
 
         user = new User("toyelani@gmail.com","Pa$$word2019","Toyelani","Obedongo",true,"toyelani");
-        user.setRoles(Arrays.asList(userRole));
-        userRepository.save(user);
+        userService.saveUser(user);
         message = new Message("Independence Day",
                 "I am proud to be an American where at least i am free. " +
                         "I wont forget men who die gave that right to me",
