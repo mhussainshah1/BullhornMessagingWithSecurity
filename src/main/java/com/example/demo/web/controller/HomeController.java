@@ -37,37 +37,7 @@ public class HomeController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/forgot-password")
-    public String forgetPassword() {
-        return "/";
-    }
-
-    @GetMapping("/register")
-    public String showRegistrationPage(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("password") String pw) {
-        System.out.println("pw: " + pw);
-        if (result.hasErrors()) {
-//            model.addAttribute("user", user);
-            return "register";
-        } else {
-            user.encode(pw);
-            userService.saveUser(user);
-            model.addAttribute("message", "New User Account Created");
-        }
-        return "login";
-    }
-
-    //ASK DAVE!!!
+    //Users with Admin role can view this page
     @RequestMapping("/admin")
     public String admin() {
         return "admin";
@@ -81,6 +51,9 @@ public class HomeController {
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
                 .getUser();
+
+        //or
+        myuser = userService.getUser();
         model.addAttribute("myuser", myuser);
         return "secure";
     }
@@ -96,14 +69,9 @@ public class HomeController {
 
     @GetMapping("/add")
     public String messageForm(Principal principal, Model model) {
-        User myuser = ((CustomerUserDetails)
-                ((UsernamePasswordAuthenticationToken) principal)
-                        .getPrincipal())
-                .getUser();
-        //        if(userService.getUser() != null){
-//            model.addAttribute("user_id", userService.getUser().getId());
-//        }
-        model.addAttribute("user", myuser);
+        if (userService.getUser() != null) {
+            model.addAttribute("user", userService.getUser());
+        }
         model.addAttribute("message", new Message());
         return "messageform";
     }
@@ -180,12 +148,10 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-        User myuser = ((CustomerUserDetails)
-                ((UsernamePasswordAuthenticationToken) principal)
-                        .getPrincipal())
-                .getUser();
-        model.addAttribute("user", myuser);
-        model.addAttribute("HASH", MD5Util.md5Hex(myuser.getEmail()));
+        if (userService.getUser() != null) {
+            model.addAttribute("user", userService.getUser());
+            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
+        }
         return "profile";
     }
 

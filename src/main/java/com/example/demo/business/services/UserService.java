@@ -1,14 +1,17 @@
 package com.example.demo.business.services;
 
+import com.example.demo.business.CustomerUserDetails;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -36,13 +39,17 @@ public class UserService {
     }
 
     public void saveUser(User user){
-        user.setRoles(Arrays.asList(roleRepository.findByRole("USER")));
+        user.setRoles(Arrays.asList(roleRepository.findByRole("USER"))
+                            .stream()
+                            .collect(Collectors.toSet()));
         user.setEnabled(true);
         userRepository.save(user);
     }
 
     public void saveAdmin(User user){
-        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
+        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN"))
+                            .stream()
+                            .collect(Collectors.toSet()));
         user.setEnabled(true);
         userRepository.save(user);
     }
@@ -53,5 +60,10 @@ public class UserService {
         String currentUserName = authentication.getName();
         User user = userRepository.findByUsername(currentUserName);
         return user;
+    }
+
+    public String encode(String password){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
