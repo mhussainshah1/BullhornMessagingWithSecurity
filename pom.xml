@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <scope>9.4-1201-jdbc4</scope>
         </dependency>
 
         <!--Security-->
