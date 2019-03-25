@@ -38,25 +38,25 @@ public class HomeController {
     UserService userService;
 
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @PostMapping("/forgot-password")
-    public String forgetPassword(){
+    public String forgetPassword() {
         return "/";
     }
 
     @GetMapping("/register")
-    public String showRegistrationPage(Model model){
-        model.addAttribute("user",new User());
+    public String showRegistrationPage(Model model) {
+        model.addAttribute("user", new User());
         return "register";
     }
 
     @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("password") String pw){
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("password") String pw) {
         System.out.println("pw: " + pw);
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
 //            model.addAttribute("user", user);
             return "register";
         } else {
@@ -69,14 +69,14 @@ public class HomeController {
 
     //ASK DAVE!!!
     @RequestMapping("/admin")
-    public String admin(){
+    public String admin() {
         return "admin";
     }
 
     //AUXILLARY FUNCTION!!!
     //Use the below code INSIDE METHOD to pass user into view
     @RequestMapping("/secure")
-    public String secure(Principal principal, Model model){
+    public String secure(Principal principal, Model model) {
         User myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
@@ -88,22 +88,22 @@ public class HomeController {
     @RequestMapping("/")
     public String listMessages(Model model) {
         model.addAttribute("messages", messageRepository.findAll());//generate select * statement
-        if(userService.getUser() != null){
-           model.addAttribute("user_id", userService.getUser().getId());
-       }
-       return "list";
+        if (userService.getUser() != null) {
+            model.addAttribute("user_id", userService.getUser().getId());
+        }
+        return "list";
     }
 
     @GetMapping("/add")
-    public String messageForm(Principal principal, Model model){
+    public String messageForm(Principal principal, Model model) {
         User myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
                 .getUser();
-        model.addAttribute("user", myuser);
-//        if(userService.getUser() != null){
+        //        if(userService.getUser() != null){
 //            model.addAttribute("user_id", userService.getUser().getId());
 //        }
+        model.addAttribute("user", myuser);
         model.addAttribute("message", new Message());
         return "messageform";
     }
@@ -112,22 +112,21 @@ public class HomeController {
     public String processForm(@Valid @ModelAttribute("message") Message message,
                               BindingResult result,
                               @RequestParam("file") MultipartFile file) {
-        System.out.println("object = " + message );
+        System.out.println("object = " + message);
         //check for errors on the form
-        if (result.hasErrors() ){
-            for (ObjectError e : result.getAllErrors()){
+        if (result.hasErrors()) {
+            for (ObjectError e : result.getAllErrors()) {
                 System.out.println(e);
             }
             return "messageform";
         }
 
         //if there is a picture path and file is empty then save message
-        if(message.getPicturePath() != null && file.isEmpty()){
-            messageRepository.save(message);
+        if (message.getPicturePath() != null && file.isEmpty()) {
             return "redirect:/";
         }
 
-        if( file.isEmpty()){
+        if (file.isEmpty()) {
             return "messageform";
         }
         Map uploadResult;
@@ -148,7 +147,7 @@ public class HomeController {
     @RequestMapping("/detail/{id}")
     public String showMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
-        if(userService.getUser() != null){
+        if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
         return "show";
@@ -157,30 +156,30 @@ public class HomeController {
     @RequestMapping("/update/{id}")
     public String updateMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
-        if(userService.getUser() != null){
+        if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
         return "messageform";
     }
 
     @RequestMapping("/delete/{id}")
-    public String deleteMessage(@PathVariable("id") long id){
+    public String deleteMessage(@PathVariable("id") long id) {
         messageRepository.deleteById(id);
         return "redirect:/";
     }
 
     @GetMapping("/termsandconditions")
-    public String getTermsAndCondition(){
+    public String getTermsAndCondition() {
         return "termsandconditions";
     }
 
     @GetMapping("/about")
-    public String getAbout(){
+    public String getAbout() {
         return "about";
     }
 
     @RequestMapping("/myprofile")
-    public String getProfile(Principal principal, Model model){
+    public String getProfile(Principal principal, Model model) {
         User myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
@@ -191,21 +190,21 @@ public class HomeController {
     }
 
     @RequestMapping("/followers")
-    public String getFollowers(Model model){
+    public String getFollowers(Model model) {
         model.addAttribute("message", "My Followers");
         return "followlist";
     }
 
     @RequestMapping("/following")
-    public String getFollowing(Model model){
+    public String getFollowing(Model model) {
         model.addAttribute("message", "People I`m Following");
         return "followlist";
     }
 
     @RequestMapping("/user/{id}")
-    public String getUser(@PathVariable("id") long id, Model model){
+    public String getUser(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id).get();
-        model.addAttribute("user", user );
+        model.addAttribute("user", user);
         model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail()));
         return "profile";
     }
