@@ -116,7 +116,7 @@ public class HomeController {
     public String showMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
+            model.addAttribute("user", userService.getUser());
         }
         return "show";
     }

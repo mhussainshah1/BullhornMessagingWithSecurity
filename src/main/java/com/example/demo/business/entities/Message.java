@@ -108,7 +108,7 @@ public class Message {
         this.user = user;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         String string = "[Title = " + title +
                 ", Content = "+ content +
@@ -116,5 +116,5 @@ public class Message {
                 ", Posted By =" + user.getFirstName() +
                 ", Picture Path = " + picturePath +"]";
         return  string;
-    }
+    }*/
 }
