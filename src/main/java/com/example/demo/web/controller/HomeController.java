@@ -91,6 +91,7 @@ public class HomeController {
 
         //if there is a picture path and file is empty then save message
         if (message.getPicturePath() != null && file.isEmpty()) {
+            messageRepository.save(message);
             return "redirect:/";
         }
 
