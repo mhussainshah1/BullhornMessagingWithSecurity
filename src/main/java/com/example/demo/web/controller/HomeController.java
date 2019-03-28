@@ -61,6 +61,7 @@ public class HomeController {
     @RequestMapping("/")
     public String listMessages(Model model) {
         model.addAttribute("messages", messageRepository.findAll());//generate select * statement
+        //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
@@ -69,9 +70,7 @@ public class HomeController {
 
     @GetMapping("/add")
     public String messageForm(Principal principal, Model model) {
-        if (userService.getUser() != null) {
-            model.addAttribute("user", userService.getUser());
-        }
+        model.addAttribute("user", userService.getUser());
         model.addAttribute("message", new Message());
         return "messageform";
     }
@@ -151,10 +150,8 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-        if (userService.getUser() != null) {
             model.addAttribute("user", userService.getUser());
             model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
-        }
         return "profile";
     }
 
