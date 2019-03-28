@@ -23,7 +23,7 @@
 
             <tr>
                 <td> Post By:</td>
-                <td><label  th:text="${user.firstName}"></label></td>
+                <td><label th:text="${user.firstName} +' ' +${user.lastName}"></label></td>
                 <td><input th:field="*{user}"  th:value="${user}"  type="hidden">
                     <span th:errors="*{user}" th:if="${#fields.hasErrors('user')}"></span></td>
             </tr>

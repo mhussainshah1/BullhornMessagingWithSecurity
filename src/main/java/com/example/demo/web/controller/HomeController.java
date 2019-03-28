@@ -106,7 +106,9 @@ public class HomeController {
             return "redirect:/messageform";
         }
         String url = uploadResult.get("url").toString();
-        message.setPicturePath(url);
+        String uploadedName = uploadResult.get("public_id").toString();
+        String transformedImage = cloudc.createUrl(uploadedName,150,150);
+        message.setPicturePath(transformedImage);
         message.setUser(userService.getUser());
         messageRepository.save(message);
         return "redirect:/";
@@ -125,7 +127,7 @@ public class HomeController {
     public String updateMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
+            model.addAttribute("user", userService.getUser());
         }
         return "messageform";
     }
