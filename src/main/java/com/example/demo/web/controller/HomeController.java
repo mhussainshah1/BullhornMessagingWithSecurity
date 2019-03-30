@@ -37,39 +37,10 @@ public class HomeController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @PostMapping("/forgot-password")
-    public String forgetPassword() {
-        return "/";
-    }
-
-    @GetMapping("/register")
-    public String showRegistrationPage(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("password") String pw) {
-        System.out.println("pw: " + pw);
-        if (result.hasErrors()) {
-//            model.addAttribute("user", user);
-            return "register";
-        } else {
-            user.encode(pw);
-            userService.saveUser(user);
-            model.addAttribute("message", "New User Account Created");
-        }
-        return "login";
-    }
-
-    //ASK DAVE!!!
+    //Users with Admin role can view this page
     @RequestMapping("/admin")
-    public String admin() {
+    public String admin(Model model) {
+        model.addAttribute("users",userRepository.findAll());
         return "admin";
     }
 
@@ -81,6 +52,9 @@ public class HomeController {
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
                 .getUser();
+
+        //or
+        myuser = userService.getUser();
         model.addAttribute("myuser", myuser);
         return "secure";
     }
@@ -88,6 +62,7 @@ public class HomeController {
     @RequestMapping("/")
     public String listMessages(Model model) {
         model.addAttribute("messages", messageRepository.findAll());//generate select * statement
+        //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
         }
@@ -96,14 +71,7 @@ public class HomeController {
 
     @GetMapping("/add")
     public String messageForm(Principal principal, Model model) {
-        User myuser = ((CustomerUserDetails)
-                ((UsernamePasswordAuthenticationToken) principal)
-                        .getPrincipal())
-                .getUser();
-        //        if(userService.getUser() != null){
-//            model.addAttribute("user_id", userService.getUser().getId());
-//        }
-        model.addAttribute("user", myuser);
+        model.addAttribute("user", userService.getUser());
         model.addAttribute("message", new Message());
         return "messageform";
     }
@@ -123,6 +91,7 @@ public class HomeController {
 
         //if there is a picture path and file is empty then save message
         if (message.getPicturePath() != null && file.isEmpty()) {
+            messageRepository.save(message);
             return "redirect:/";
         }
 
@@ -138,7 +107,9 @@ public class HomeController {
             return "redirect:/messageform";
         }
         String url = uploadResult.get("url").toString();
-        message.setPicturePath(url);
+        String uploadedName = uploadResult.get("public_id").toString();
+        String transformedImage = cloudc.createUrl(uploadedName,150,150);
+        message.setPicturePath(transformedImage);
         message.setUser(userService.getUser());
         messageRepository.save(message);
         return "redirect:/";
@@ -148,7 +119,7 @@ public class HomeController {
     public String showMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
+            model.addAttribute("user", userService.getUser());
         }
         return "show";
     }
@@ -157,7 +128,7 @@ public class HomeController {
     public String updateMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
+            model.addAttribute("user", userService.getUser());
         }
         return "messageform";
     }
@@ -180,12 +151,8 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-        User myuser = ((CustomerUserDetails)
-                ((UsernamePasswordAuthenticationToken) principal)
-                        .getPrincipal())
-                .getUser();
-        model.addAttribute("user", myuser);
-        model.addAttribute("HASH", MD5Util.md5Hex(myuser.getEmail()));
+            model.addAttribute("user", userService.getUser());
+            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         return "profile";
     }
 

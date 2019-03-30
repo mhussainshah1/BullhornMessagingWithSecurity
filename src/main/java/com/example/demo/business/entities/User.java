@@ -50,14 +50,18 @@ public class User {
     public User() {
     }
 
-    public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
-        this.setEmail(email);
-        this.setPassword(password);
-        this.encode(password);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEnabled(enabled);
-        this.setUsername(username);
+    public User(@NotEmpty @Email String email,
+                @NotEmpty String password,
+                @NotEmpty String firstName,
+                @NotEmpty String lastName,
+                @AssertTrue boolean enabled,
+                @NotEmpty String username) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.enabled = enabled;
+        this.username = username;
     }
 
     public long getId() {
@@ -81,8 +85,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        this.password = passwordEncoder.encode(password);
         this.password = password;
     }
 
@@ -126,8 +128,4 @@ public class User {
         this.roles = roles;
     }
 
-    public void encode(String password){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
-    }
 }

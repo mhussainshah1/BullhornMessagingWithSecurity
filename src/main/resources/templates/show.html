@@ -8,7 +8,7 @@
 <body>
 <div th:replace="base::nav"></div>
 <br/>
-<div class="container" align="center">
+<div align="center" class="container">
     <h2>Blog Details</h2>
     <table class="table">
         <tr>
@@ -30,27 +30,28 @@
         </tr>
         <tr>
             <td>Picture:</td>
-            <td><img class ="profile-picture"
-                     th:src="${message.picturePath}"
-                     th:alt = "Picture"> <!-- th:text="${message.picturePath}" --><td>
+            <td><img class="profile-picture"
+                     th:alt="Picture"
+                     th:src="${message.picturePath}"> <!-- th:text="${message.picturePath}" -->
+            <td>
         </tr>
     </table>
 
-    <div sec:authorize="isAuthenticated()">
 
-        <div sec:authorize="hasAuthority('USER')">
-            <span th:if="${user_id == message.user.id}">
-                <a th:href="@{/update/{id}(id=${message.id})}">Edit</a>
-            </span>
-        </div>
-
-        <div sec:authorize="hasAuthority('ADMIN')">
+    <div sec:authorize="hasAuthority('USER')">
+        <span th:if="${user_id == message.user.id}">
             <a th:href="@{/update/{id}(id=${message.id})}">Edit</a> - <!-- Update -->
             <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
-        </div>
+        </span>
+    </div>
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <a th:href="@{/update/{id}(id=${message.id})}">Edit</a> - <!-- Update -->
+        <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
     </div>
 
 </div>
+
 <br/>
 <div th:replace="base::footer"></div>
 </body>

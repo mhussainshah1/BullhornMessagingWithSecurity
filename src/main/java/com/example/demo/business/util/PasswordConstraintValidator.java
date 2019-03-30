@@ -1,6 +1,6 @@
 package com.example.demo.business.util;
-
-import com.example.demo.business.util.ValidPassword;
+//todo: change reading from datatbase rather than text file reference is on
+// http://www.passay.org/reference/
 import org.passay.*;
 import org.passay.dictionary.WordListDictionary;
 import org.passay.dictionary.WordLists;

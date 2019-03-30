@@ -42,15 +42,11 @@
 
             <td><img class ="icon" th:src="*{picturePath}" alt="Picture"></td>
 
-         <!--   <td sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{/update/{id}(id=*{id})}">edit</a>-&lt;!&ndash; Update &ndash;&gt;
-                <a th:href="@{/delete/{id}(id=*{id})}">delete</a>&lt;!&ndash; Delete &ndash;&gt;
-            </td>-->
-
             <td sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('USER')">
                     <span th:if="${user_id == message.user.id}">
-                        <a th:href="@{/update/{id}(id=${message.id})}">edit</a>
+                        <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
+                        <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
                     </span>
                 </div>
                 <div sec:authorize="hasAuthority('ADMIN')">

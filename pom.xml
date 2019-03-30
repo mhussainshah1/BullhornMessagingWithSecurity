@@ -77,7 +77,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--For Password Verification-->
+        <!--For InvalidPassword Verification-->
         <dependency>
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>

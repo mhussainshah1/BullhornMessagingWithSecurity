@@ -36,10 +36,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http
                 .authorizeRequests()
-                .antMatchers("/","/termsandconditions",
-                        "/css/**","/js/**","/h2-console/**", "/register",
+                .antMatchers( "/","/h2-console/**","/termsandconditions",
+                        "/css/**","/js/**", "/register",
                         "/detail/{id}","/about").permitAll()
-// , "/detail/** "
+
 //                .access("hasAnyAuthority('USER','ADMIN')")
 //                .antMatchers("/admin").access("hasAuthority('ADMIN')")
                 .anyRequest().authenticated()
@@ -61,11 +61,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void  configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsServiceBean())
                 .passwordEncoder(passwordEncoder());
-       /* auth.inMemoryAuthentication()
-                .withUser("dave").password(passwordEncoder().encode("begreat"))
-                    .authorities("ADMIN")
-                .and()
-                .withUser("user").password(passwordEncoder().encode("password"))
-                    .authorities("USER");*/
     }
 }
