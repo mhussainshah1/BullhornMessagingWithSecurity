@@ -7,59 +7,73 @@
 <body>
 <div th:replace="base::nav"></div>
 
-<div align="center" class="container">
+<div align="center" class="container col-md-6 col-md-offset-3">
     <div class="jumbotron lead">
         <h2 align="center">Blog</h2>
     </div>
+    <form action="#" enctype="multipart/form-data" method="post"
+          th:action="@{/process}" th:object="${message}">
 
-    <form action="#" enctype="multipart/form-data"   method="post"  th:action="@{/process}"  th:object="${message}">
-        <table class="table">
-            <input th:field="*{id}" type="hidden"/>
-            <tr>
-                <td> Title:</td>
-                <td><input th:field="*{title}" type="text"/></td>
-                <td><span th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></span></td>
-            </tr>
+        <!--Hidden properties-->
+        <input th:field="*{id}" type="hidden"/>
+        <input th:field="*{picturePath}" type="hidden"><!--[[*{picturePath}]]-->
+        <input th:field="*{user}" th:value="${user}" type="hidden">
 
-            <tr>
-                <td> Post By:</td>
-                <td><label th:text="${user.firstName} +' ' +${user.lastName}"></label></td>
-                <td><input th:field="*{user}"  th:value="${user}"  type="hidden">
-                    <span th:errors="*{user}" th:if="${#fields.hasErrors('user')}"></span></td>
-            </tr>
+        <div class="text-left">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="title">Title:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="title" placeholder="Enter Title"
+                           th:field="*{title}" type="text"/>
+                    <span class="error-message" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="content">Content:</label>
 
-            <tr>
-                <td> Content:</td>
-                <td><textarea th:field="*{content}"></textarea></td>
-                <td><span th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></span></td>
-            </tr>
+                <div class="col-sm-10">
+                <textarea class="form-control" id="content" placeholder="content" rows="5"
+                          th:field="*{content}"></textarea>
+                    <span class="error-message" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="file"> Picture:</label>
+                <div class="col-sm-10">
+                    <input id="file" type="file" class="form-control-file border" name="file">
+                    (Update or add new image)
+                </div>
+            </div>
+            <div class="form-group row" th:if="(*{picturePath} != null)" >
+                    <label class="col-sm-2 col-form-label" for="file"></label>
+                    <div class="col-sm-10">
+                        <img class="profile-picture" th:alt="Picture" th:src="*{picturePath}"/><br/>
+                    </div>
+                    <span class="error-message" th:if="${#fields.hasErrors('picturePath')}"
+                                                th:errors="*{picturePath}"></span>
+            </div>
 
-            <tr>
-                <td> Post Date:</td>
-                <td colspan="2"> <label th:field="*{postedDate}"
-                                       th:text="*{postedDate}"></label></td>
-            </tr>
-            <tr>
-                <td> Picture:</td>
-                <td>
-                    <!--<span th:if="*{picturePath} == null">-->
-                        <input name="file" type="file"/>
-                    <!--</span>-->
-                </td>
-                <td></td>
-            </tr>
-                <tr th:if="*{picturePath} != null">
-                    <td><input th:field="*{picturePath}" type ="hidden"><!--[[*{picturePath}]]--></td>
-                    <td><img class="profile-picture"  th:alt="Picture"  th:src="*{picturePath}" /><br/></td>
-                    <td><span th:errors="*{picturePath}" th:if="${#fields.hasErrors('picturePath')}"></span></td>
-                </tr>
-            <tr>
-                <td align="center" colspan="3"><input text="Submit" type="submit"/></td>
-            </tr>
-        </table>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Posted:</label>
+                <div class="col-sm-10 text-left">
+                    <span th:text="${user.firstName} +' ' +${user.lastName}"></span><br/>
+                    <span class="error-message" th:errors="*{user}" th:if="${#fields.hasErrors('user')}"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Date:</label>
+                <div class="col-sm-10 text-left">
+                    <span th:field="*{postedDate}" th:text="*{postedDate}"></span>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 </div>
 <br/>
 <div th:replace="base::footer"></div>
 </body>
 </html>
+
+
+

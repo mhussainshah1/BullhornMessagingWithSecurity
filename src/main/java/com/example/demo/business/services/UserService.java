@@ -1,6 +1,5 @@
 package com.example.demo.business.services;
 
-import com.example.demo.business.CustomerUserDetails;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
@@ -22,34 +21,34 @@ public class UserService {
     RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public Long countByEmail(String email){
+    public Long countByEmail(String email) {
         return userRepository.countByEmail(email);
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public void saveUser(User user){
+    public void saveUser(User user) {
         user.setRoles(Arrays.asList(roleRepository.findByRole("USER"))
-                            .stream()
-                            .collect(Collectors.toSet()));
+                .stream()
+                .collect(Collectors.toSet()));
         user.setEnabled(true);
         userRepository.save(user);
     }
 
-    public void saveAdmin(User user){
+    public void saveAdmin(User user) {
         user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN"))
-                            .stream()
-                            .collect(Collectors.toSet()));
+                .stream()
+                .collect(Collectors.toSet()));
         user.setEnabled(true);
         userRepository.save(user);
     }
@@ -62,7 +61,7 @@ public class UserService {
         return user;
     }
 
-    public String encode(String password){
+    public String encode(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }

@@ -13,6 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -26,6 +28,9 @@ public class DataLoader implements CommandLineRunner {
     UserService userService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     InvalidPasswordRepository invalidPasswordRepository;
 
     @Override
@@ -34,7 +39,7 @@ public class DataLoader implements CommandLineRunner {
         roleRepository.save(new Role("ADMIN"));
 
         Role adminRole = roleRepository.findByRole("ADMIN");
-        Role userRole=roleRepository.findByRole("USER");
+        Role userRole = roleRepository.findByRole("USER");
 
         invalidPasswordRepository.save(new InvalidPassword("azerty12!"));
         invalidPasswordRepository.save(new InvalidPassword("12345678!"));
@@ -84,5 +89,12 @@ public class DataLoader implements CommandLineRunner {
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png",
                 admin);
         messageRepository.save(message);
+
+        //Add followers
+        Set<User> followers = new HashSet<>();
+        followers.add(moe);
+        followers.add(tolani);
+        dave.setFollowers(followers);
+        userRepository.save(dave);
     }
 }

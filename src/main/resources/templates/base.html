@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
-        <!-- Required meta tags -->
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
 
-        <!-- Bootstrap CSS -->
-        <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
-        <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
 
 </head>
 <body>
@@ -24,16 +24,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                <a class="nav-link dropdown-toggle"
+                <a aria-expanded="false"
+                   aria-haspopup="true"
+                   class="nav-link dropdown-toggle"
+                   data-toggle="dropdown"
                    href="#"
                    id="navbarDropdown"
-                   role="button"
-                   data-toggle="dropdown"
-                   aria-haspopup="true"
-                   aria-expanded="false">Welcome <span
+                   role="button">Welcome <span
                         th:text="${#authentication.name}"></span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                     <a class="dropdown-item" href="/myprofile">My Profile</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/followers">Followers</a>
@@ -69,7 +69,7 @@
 
 <div align="center" th:fragment="footer">
 
-    <p class="mt-5 mb-3 text-muted" align="center">&copy; 2019-2020</p>
+    <p align="center" class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script crossorigin="anonymous"

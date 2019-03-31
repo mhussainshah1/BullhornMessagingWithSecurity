@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 /**
  * Message object should have at least:
- *-------------------------------------
+ * -------------------------------------
  * id
  * title
  * content
@@ -38,8 +38,7 @@ public class Message {
     //@Size(min = 4)
     private String picturePath;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
     private User user;
 
     public Message() {
@@ -58,7 +57,6 @@ public class Message {
         this.picturePath = picturePath;
         this.user = user;
     }
-
 
     public long getId() {
         return id;

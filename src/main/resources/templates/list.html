@@ -1,28 +1,28 @@
 <!doctype html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="base::header">
     <title>List</title>
 
 </head>
 <body>
 <div th:replace="base::nav"></div>
-<div class="container-float" align="center">
+<div align="center" class="container-float">
     <div class="jumbotron lead">
         <h2 align="center"> Blog Post </h2>
     </div>
     <table class="table table-striped" style="width:100%">
         <thead class="thead-light">
-            <tr>
-                <th sec:authorize="hasAuthority('ADMIN')">Select</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Posted Date</th>
-                <th>Posted By</th>
-                <th>Picture</th>
-                <th sec:authorize="isAuthenticated()">Actions</th>
-            </tr>
+        <tr>
+            <th sec:authorize="hasAuthority('ADMIN')">Select</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Posted Date</th>
+            <th>Posted By</th>
+            <th>Picture</th>
+            <th sec:authorize="isAuthenticated()">Actions</th>
+        </tr>
         </thead>
         <!--enhanced for loop-->
         <tr th:each="message : ${messages}" th:object="${message}">
@@ -34,13 +34,17 @@
                 <a th:href="@{/detail/{id}(id=*{id})}">[[*{content}]]</a>
             </td>
 
-            <td th:text="*{postedDate}"></td><!--<td th:text = "${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></td>-->
+            <td th:text="*{postedDate}"></td>
+            <!--<td th:text = "${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></td>-->
             <!--Todo: change into date and time-->
             <td>
                 <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
             </td>
 
-            <td><img class ="icon" th:src="*{picturePath}" alt="Picture"></td>
+            <td><img alt="Picture" class="icon" th:src="*{picturePath}"></td>
+
+          <!--  <td><img id="gravatar" th:alt= "gravatar"
+                     th:src="@{'http://gravatar.com/avatar/' + ${md5Util.md5Hex(user.email)} + '?s=30'}"></td> -->
 
             <td sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('USER')">

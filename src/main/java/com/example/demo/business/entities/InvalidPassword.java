@@ -1,9 +1,5 @@
 package com.example.demo.business.entities;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Service;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
@@ -13,7 +9,7 @@ public class InvalidPassword {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     @NotEmpty
     private String value;
 

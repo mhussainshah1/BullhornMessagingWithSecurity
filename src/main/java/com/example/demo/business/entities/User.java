@@ -1,13 +1,12 @@
 package com.example.demo.business.entities;
 
-import com.example.demo.business.util.ValidPassword;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "User_Data")
@@ -47,7 +46,23 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
+    //for Messages
+    @OneToMany(mappedBy = "user")
+    private Set<Message> messages;
+
+    //For followers and following
+    @ManyToMany//(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL)
+    @JoinTable(//name = "USER_RELATIONS",
+            joinColumns = @JoinColumn(name = "following_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id"))
+    private Set<User> followers;
+
+    @ManyToMany(mappedBy = "followers")
+    private Set<User> followings;
+
     public User() {
+        followers = new HashSet<>();
+        followings = new HashSet<>();
     }
 
     public User(@NotEmpty @Email String email,
@@ -128,4 +143,45 @@ public class User {
         this.roles = roles;
     }
 
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public Set<User> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(Set<User> followings) {
+        this.followings = followings;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
+   /* public void addFollower(User follower) {
+        followers.add(follower);
+        follower.followings.add(this);
+    }
+
+    public void removeFollower(User follower) {
+        followers.remove(follower);
+        follower.followings.remove(this);
+    }
+
+    public void addFollowing(User followed) {
+        followed.addFollower(this);
+    }
+
+    public void removeFollowing(User followed) {
+        followed.removeFollower(this);
+    }*/
 }

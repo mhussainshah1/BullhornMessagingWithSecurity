@@ -1,12 +1,12 @@
 package com.example.demo.web.controller;
 
 import com.cloudinary.utils.ObjectUtils;
-import com.example.demo.business.CustomerUserDetails;
 import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
 import com.example.demo.business.services.CloudinaryConfig;
+import com.example.demo.business.services.CustomerUserDetails;
 import com.example.demo.business.services.UserService;
 import com.example.demo.business.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,23 +40,8 @@ public class HomeController {
     //Users with Admin role can view this page
     @RequestMapping("/admin")
     public String admin(Model model) {
-        model.addAttribute("users",userRepository.findAll());
+        model.addAttribute("users", userRepository.findAll());
         return "admin";
-    }
-
-    //AUXILLARY FUNCTION!!!
-    //Use the below code INSIDE METHOD to pass user into view
-    @RequestMapping("/secure")
-    public String secure(Principal principal, Model model) {
-        User myuser = ((CustomerUserDetails)
-                ((UsernamePasswordAuthenticationToken) principal)
-                        .getPrincipal())
-                .getUser();
-
-        //or
-        myuser = userService.getUser();
-        model.addAttribute("myuser", myuser);
-        return "secure";
     }
 
     @RequestMapping("/")
@@ -65,7 +50,11 @@ public class HomeController {
         //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
+            model.addAttribute("user", userService.getUser());
+            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         }
+
+        model.addAttribute("md5Util", new MD5Util());
         return "list";
     }
 
@@ -79,13 +68,15 @@ public class HomeController {
     @PostMapping("/process")
     public String processForm(@Valid @ModelAttribute("message") Message message,
                               BindingResult result,
-                              @RequestParam("file") MultipartFile file) {
+                              @RequestParam("file") MultipartFile file,
+                              Model model) {
         System.out.println("object = " + message);
         //check for errors on the form
         if (result.hasErrors()) {
             for (ObjectError e : result.getAllErrors()) {
                 System.out.println(e);
             }
+            model.addAttribute("user", userService.getUser());
             return "messageform";
         }
 
@@ -96,6 +87,7 @@ public class HomeController {
         }
 
         if (file.isEmpty()) {
+            model.addAttribute("user", userService.getUser());
             return "messageform";
         }
         Map uploadResult;
@@ -104,11 +96,12 @@ public class HomeController {
                     file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
         } catch (IOException e) {
             e.printStackTrace();
+            model.addAttribute("user", userService.getUser());
             return "redirect:/messageform";
         }
         String url = uploadResult.get("url").toString();
         String uploadedName = uploadResult.get("public_id").toString();
-        String transformedImage = cloudc.createUrl(uploadedName,150,150);
+        String transformedImage = cloudc.createUrl(uploadedName, 150, 150);
         message.setPicturePath(transformedImage);
         message.setUser(userService.getUser());
         messageRepository.save(message);
@@ -151,28 +144,55 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-            model.addAttribute("user", userService.getUser());
-            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
+        model.addAttribute("user", userService.getUser());
+        model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         return "profile";
+    }
+
+    @RequestMapping("/follow/{id}")
+    public String follow(Model model) {
+        return "profile";
+    }
+
+    @RequestMapping("/unfollow/{id}")
+    public String unfollow(Model model) {
+        return "redirect:/";
     }
 
     @RequestMapping("/followers")
     public String getFollowers(Model model) {
         model.addAttribute("message", "My Followers");
-        return "followlist";
+        model.addAttribute("md5Util", new MD5Util());
+        model.addAttribute("users", userRepository.findAllByFollowers(userService.getUser()));
+        return "peoplelist";
     }
 
     @RequestMapping("/following")
     public String getFollowing(Model model) {
         model.addAttribute("message", "People I`m Following");
-        return "followlist";
+        model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
+        return "peoplelist";
     }
 
     @RequestMapping("/user/{id}")
     public String getUser(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id).get();
         model.addAttribute("user", user);
-        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail()));
+        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
         return "profile";
+    }
+
+    //AUXILLARY FUNCTION!!!
+    //Use the below code INSIDE METHOD to pass user into view
+    @RequestMapping("/secure")
+    public String secure(Principal principal, Model model) {
+        User myuser = ((CustomerUserDetails)
+                ((UsernamePasswordAuthenticationToken) principal)
+                        .getPrincipal())
+                .getUser();
+        //or
+        myuser = userService.getUser();
+        model.addAttribute("myuser", myuser);
+        return "secure";
     }
 }
