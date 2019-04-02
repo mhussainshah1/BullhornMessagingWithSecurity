@@ -51,10 +51,10 @@ public class HomeController {
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());
             model.addAttribute("user", userService.getUser());
-            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
+//            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         }
 
-        model.addAttribute("md5Util", new MD5Util());
+        model.addAttribute("mD5Util", new MD5Util());
         return "list";
     }
 
@@ -170,6 +170,7 @@ public class HomeController {
     @RequestMapping("/following")
     public String getFollowing(Model model) {
         model.addAttribute("message", "People I`m Following");
+        model.addAttribute("md5Util", new MD5Util());
         model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
         return "peoplelist";
     }
