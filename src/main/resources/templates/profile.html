@@ -14,6 +14,16 @@
         <h2 align="center" th:text="${user.firstName} +' ' +${user.lastName}"></h2>
     </div>
 
+    <form method="post" th:action="@{/}">
+        <div>
+            <button type="submit" >follow</button>
+            <!--     <span th:if="${user_id == message.user.id}">
+                     if
+                     put button
+                 </span>-->
+        </div>
+    </form>
+
     <div>
         <strong>
             <span th:text="${user.username}"></span>

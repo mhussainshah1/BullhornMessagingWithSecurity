@@ -41,14 +41,10 @@
                 <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
             </td>
 
-            <td><img alt="Picture" class="icon" th:src="*{picturePath}"></td>
-
-<!--            Todo: Sort out get user for a message-->
-
-           <!-- <td><img id="gravatar"
+            <td><img id="gravatar"
                      th:alt= "gravatar"
-                     th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(user.email)} + '?s=30'}"></td>
--->
+                     th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(message.user.email)} + '?s=40'}"></td>
+
             <td sec:authorize="isAuthenticated()">
                 <div sec:authorize="hasAuthority('USER')">
                     <span th:if="${user_id == message.user.id}">

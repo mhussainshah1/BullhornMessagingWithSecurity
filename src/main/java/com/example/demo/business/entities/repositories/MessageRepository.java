@@ -4,5 +4,4 @@ import com.example.demo.business.entities.Message;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MessageRepository extends CrudRepository<Message, Long> {
-    Message findByUser_Id(Long id);
 }
