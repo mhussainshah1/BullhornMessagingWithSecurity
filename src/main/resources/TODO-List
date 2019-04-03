@@ -1,1 +1,18 @@
 New post at top
+
+/
+login
+register
+logout
+
+myprofile
+followers
+following
+user/{id}
+follow/{id}
+unfollow/{id}
+
+add
+detail/{id}
+update/{id}
+delete/{id}

@@ -46,4 +46,9 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/termsandconditions")
+    public String getTermsAndCondition() {
+        return "termsandconditions";
+    }
+
 }

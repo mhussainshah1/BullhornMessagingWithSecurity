@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -132,11 +134,6 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/termsandconditions")
-    public String getTermsAndCondition() {
-        return "termsandconditions";
-    }
-
     @GetMapping("/about")
     public String getAbout() {
         return "about";
@@ -149,14 +146,12 @@ public class HomeController {
         return "profile";
     }
 
-    @RequestMapping("/follow/{id}")
-    public String follow(Model model) {
-        return "profile";
-    }
-
-    @RequestMapping("/unfollow/{id}")
-    public String unfollow(Model model) {
-        return "redirect:/";
+    @RequestMapping("/user/{id}")
+    public String getUser(@PathVariable("id") long id, Model model) {
+        User user = userRepository.findById(id).get();
+        model.addAttribute("user", user);
+        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
+        return "peopleprofile";
     }
 
     @RequestMapping("/followers")
@@ -175,12 +170,23 @@ public class HomeController {
         return "peoplelist";
     }
 
-    @RequestMapping("/user/{id}")
-    public String getUser(@PathVariable("id") long id, Model model) {
-        User user = userRepository.findById(id).get();
-        model.addAttribute("user", user);
-        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
-        return "profile";
+    @RequestMapping("/follow/{id}")
+    public String follow(@PathVariable("id") long id, Model model) {
+        User follow = userRepository.findById(id).get();
+        User myuser = userService.getUser();
+//        myuser.getFollowings().add(follow);
+        myuser.setFollowings(Arrays.asList(follow).stream().collect(Collectors.toSet()));
+        userRepository.save(follow);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/unfollow/{id}")
+    public String unfollow(@PathVariable("id") long id, Model model) {
+        User follow = userRepository.findById(id).get();
+        User myuser = userService.getUser();
+        myuser.getFollowings().remove(follow);
+        userRepository.save(myuser);
+        return "redirect:/";
     }
 
     //AUXILLARY FUNCTION!!!

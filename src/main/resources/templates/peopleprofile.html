@@ -9,9 +9,16 @@
 
 <body>
 <div th:replace="base::nav"></div>
-<div class="container">
+<div align="center" class="container">
+    <form method="post" th:action="@{/follow/{id}(id=${user.id})}" th:Object="${user}">
+
     <div class="jumbotron lead">
-        <h2 align="center" th:text="${user.firstName} +' ' +${user.lastName}"></h2>
+        <h2 th:text="${user.firstName} +' ' +${user.lastName}"></h2>
+    </div>
+
+    <div>
+        <input th:field="*{id}" type="hidden">
+        <button type="submit">follow</button>
     </div>
 
     <div>
@@ -25,6 +32,8 @@
              th:alt="|${user.firstName}  ${user.lastName}|"
              th:src="@{'http://gravatar.com/avatar/' + ${HASH} + '?s=200'}">
     </div>
+
+    </form>
 </div>
 
 <div th:replace="base::footer"></div>
