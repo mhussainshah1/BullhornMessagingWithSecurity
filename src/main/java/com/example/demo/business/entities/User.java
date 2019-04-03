@@ -51,10 +51,9 @@ public class User {
     private Set<Message> messages;
 
     //For followers and following
-    @ManyToMany//(fetch = FetchType.EAGER)//(cascade = CascadeType.ALL)
-    @JoinTable(//name = "USER_RELATIONS",
-            joinColumns = @JoinColumn(name = "following_id"),
-            inverseJoinColumns = @JoinColumn(name = "follower_id"))
+    @ManyToMany
+    @JoinTable( joinColumns = @JoinColumn(name = "following_id"),
+                inverseJoinColumns = @JoinColumn(name = "follower_id"))
     private Set<User> followers;
 
     @ManyToMany(mappedBy = "followers")
