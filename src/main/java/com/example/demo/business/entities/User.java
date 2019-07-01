@@ -52,12 +52,10 @@ public class User {
 
     //For followers and following
     @ManyToMany
-    @JoinTable( joinColumns = @JoinColumn(name = "following_id"),
-                inverseJoinColumns = @JoinColumn(name = "follower_id"))
-    private Set<User> followers;
-
-    @ManyToMany(mappedBy = "followers")
     private Set<User> followings;
+
+    @ManyToMany(mappedBy = "followings")
+    private Set<User> followers;
 
     public User() {
         followers = new HashSet<>();

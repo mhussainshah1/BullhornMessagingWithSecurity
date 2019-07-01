@@ -55,13 +55,13 @@ public class HomeController {
             model.addAttribute("user", userService.getUser());
 //            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         }
-
         model.addAttribute("mD5Util", new MD5Util());
         return "list";
     }
 
     @GetMapping("/add")
     public String messageForm(Principal principal, Model model) {
+        model.addAttribute("imageLabel", "Upload Image");
         model.addAttribute("user", userService.getUser());
         model.addAttribute("message", new Message());
         return "messageform";
@@ -72,40 +72,35 @@ public class HomeController {
                               BindingResult result,
                               @RequestParam("file") MultipartFile file,
                               Model model) {
-        System.out.println("object = " + message);
+        model.addAttribute("imageLabel", "Upload Image");
+        model.addAttribute("user", userService.getUser());
         //check for errors on the form
         if (result.hasErrors()) {
             for (ObjectError e : result.getAllErrors()) {
                 System.out.println(e);
             }
-            model.addAttribute("user", userService.getUser());
             return "messageform";
         }
 
-        //if there is a picture path and file is empty then save message
-        if (message.getPicturePath() != null && file.isEmpty()) {
-            messageRepository.save(message);
-            return "redirect:/";
+        if (!file.isEmpty()) {
+            try {
+                Map uploadResult = cloudc.upload(
+                        file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
+                String url = uploadResult.get("url").toString();
+                String uploadedName = uploadResult.get("public_id").toString();
+                String transformedImage = cloudc.createUrl(uploadedName, 150, 150);
+                message.setPicturePath(transformedImage);
+                message.setUser(userService.getUser());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/add";
+            }
+        } else {
+            //if file is empty and there is a picture path then save item
+            if (message.getPicturePath().isEmpty()) {
+                return "messageform";
+            }
         }
-
-        if (file.isEmpty()) {
-            model.addAttribute("user", userService.getUser());
-            return "messageform";
-        }
-        Map uploadResult;
-        try {
-            uploadResult = cloudc.upload(
-                    file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("user", userService.getUser());
-            return "redirect:/messageform";
-        }
-        String url = uploadResult.get("url").toString();
-        String uploadedName = uploadResult.get("public_id").toString();
-        String transformedImage = cloudc.createUrl(uploadedName, 150, 150);
-        message.setPicturePath(transformedImage);
-        message.setUser(userService.getUser());
         messageRepository.save(message);
         return "redirect:/";
     }

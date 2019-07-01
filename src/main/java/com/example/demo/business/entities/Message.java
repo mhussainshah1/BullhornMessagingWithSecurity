@@ -42,15 +42,12 @@ public class Message {
     private User user;
 
     public Message() {
+        picturePath = "";
         postedDate = LocalDate.now();
         user = new User();
     }
 
-    public Message(@Size(min = 4) String title,
-                   @Size(min = 10) String content,
-                   LocalDate postedDate,
-                   String picturePath,
-                   User user) {
+    public Message(@Size(min = 4) String title, @Size(min = 10) String content, LocalDate postedDate, String picturePath, User user) {
         this.title = title;
         this.content = content;
         this.postedDate = postedDate;

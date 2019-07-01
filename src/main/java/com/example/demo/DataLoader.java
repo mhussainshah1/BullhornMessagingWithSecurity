@@ -1,4 +1,4 @@
-package com.example.demo.business.services;
+package com.example.demo;
 
 import com.example.demo.business.entities.InvalidPassword;
 import com.example.demo.business.entities.Message;
@@ -8,13 +8,16 @@ import com.example.demo.business.entities.repositories.InvalidPasswordRepository
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
+import com.example.demo.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -94,7 +97,8 @@ public class DataLoader implements CommandLineRunner {
         Set<User> followers = new HashSet<>();
         followers.add(moe);
         followers.add(tolani);
-        dave.setFollowers(followers);
+        dave.setFollowings(followers);
+        dave.setFollowers(Arrays.asList(moe).stream().collect(Collectors.toSet()));
         userRepository.save(dave);
     }
 }

@@ -18,7 +18,7 @@
 
     <div>
         <input th:field="*{id}" type="hidden">
-        <button type="submit">follow</button>
+        <button type="submit" th:href="@{/follow/{id}(id=${user.id})}">follow</button>
     </div>
 
     <div>

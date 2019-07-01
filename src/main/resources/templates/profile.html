@@ -9,9 +9,9 @@
 
 <body>
 <div th:replace="base::nav"></div>
-<div class="container">
+<div align="center" class="container">
     <div class="jumbotron lead">
-        <h2 align="center" th:text="${user.firstName} +' ' +${user.lastName}"></h2>
+        <h2 th:text="${user.firstName} +' ' +${user.lastName}"></h2>
     </div>
 
     <div>
