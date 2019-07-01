@@ -34,11 +34,14 @@
             </td>
 <!--            <td><a>[[*{content}]]</a></td>-->
 
-            <td th:text="*{postedDate}"></td>
-            <!--<td th:text = "${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></td>-->
-            <!--Todo: change into date and time-->
             <td>
-                <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
+                <span th:text="${#temporals.format(message.postedDate, 'dd MMM yyyy, hh:mm')}"></span>
+            </td>
+
+            <td>
+                <strong>
+                    <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
+                </strong>
             </td>
 
             <td><img id="gravatar"

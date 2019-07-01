@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Message object should have at least:
@@ -31,8 +31,8 @@ public class Message {
     @Size(min = 10)
     private String content;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate postedDate;
+    @DateTimeFormat(pattern = "dd MMM yyyy, hh:mm")
+    private LocalDateTime postedDate;
 
     @NonNull
     //@Size(min = 4)
@@ -43,11 +43,11 @@ public class Message {
 
     public Message() {
         picturePath = "";
-        postedDate = LocalDate.now();
+        postedDate = LocalDateTime.now();
         user = new User();
     }
 
-    public Message(@Size(min = 4) String title, @Size(min = 10) String content, LocalDate postedDate, String picturePath, User user) {
+    public Message(@Size(min = 4) String title, @Size(min = 10) String content, LocalDateTime postedDate, String picturePath, User user) {
         this.title = title;
         this.content = content;
         this.postedDate = postedDate;
@@ -79,11 +79,11 @@ public class Message {
         this.content = content;
     }
 
-    public LocalDate getPostedDate() {
+    public LocalDateTime getPostedDate() {
         return postedDate;
     }
 
-    public void setPostedDate(LocalDate postedDate) {
+    public void setPostedDate(LocalDateTime postedDate) {
         this.postedDate = postedDate;
     }
 

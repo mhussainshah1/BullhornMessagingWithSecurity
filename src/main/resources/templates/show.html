@@ -21,12 +21,19 @@
         </tr>
         <tr>
             <td>Posted Date:</td>
-            <td><span th:text="${message.postedDate}"></span></td>
-            <!--<span th:text="${#temporals.format(message.dueDate, 'yyyy-MM-dd')}"></span><br/>-->
+            <td>
+                <span th:text="${#temporals.format(message.postedDate, 'dd MMM yyyy, hh:mm')}"></span>
+            </td>
+
         </tr>
         <tr>
             <td>Posted By:</td>
-            <td><span th:text="${message.user.firstName}"></span></td>
+            <td>
+                <strong>
+                    <a th:href="@{/user/{id}(id=${message.user.id})}"
+                       th:text="${message.user.firstName}"></a>
+                </strong>
+            </td>
         </tr>
         <tr>
             <td>Picture:</td>
