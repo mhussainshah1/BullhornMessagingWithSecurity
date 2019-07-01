@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * id
  * title
  * content
- * postedDate
+ * postedDateTime
  * postedBy
  */
 
@@ -31,11 +31,10 @@ public class Message {
     @Size(min = 10)
     private String content;
 
-    @DateTimeFormat(pattern = "dd MMM yyyy, hh:mm")
-    private LocalDateTime postedDate;
+    //@DateTimeFormat(pattern = "dd MMM yyyy, hh:mm")
+    private LocalDateTime postedDateTime;
 
     @NonNull
-    //@Size(min = 4)
     private String picturePath;
 
     @ManyToOne
@@ -43,14 +42,14 @@ public class Message {
 
     public Message() {
         picturePath = "";
-        postedDate = LocalDateTime.now();
+        postedDateTime = LocalDateTime.now();
         user = new User();
     }
 
-    public Message(@Size(min = 4) String title, @Size(min = 10) String content, LocalDateTime postedDate, String picturePath, User user) {
+    public Message(@Size(min = 4) String title, @Size(min = 10) String content, LocalDateTime postedDateTime, String picturePath, User user) {
         this.title = title;
         this.content = content;
-        this.postedDate = postedDate;
+        this.postedDateTime = postedDateTime;
         this.picturePath = picturePath;
         this.user = user;
     }
@@ -79,12 +78,12 @@ public class Message {
         this.content = content;
     }
 
-    public LocalDateTime getPostedDate() {
-        return postedDate;
+    public LocalDateTime getPostedDateTime() {
+        return postedDateTime;
     }
 
-    public void setPostedDate(LocalDateTime postedDate) {
-        this.postedDate = postedDate;
+    public void setPostedDateTime(LocalDateTime postedDateTime) {
+        this.postedDateTime = postedDateTime;
     }
 
     public String getPicturePath() {
@@ -107,7 +106,7 @@ public class Message {
     public String toString() {
         String string = "[Title = " + title +
                 ", Content = "+ content +
-                ", Posted Date = " + postedDate +
+                ", Posted Date = " + postedDateTime +
                 ", Posted By =" + user.getFirstName() +
                 ", Picture Path = " + picturePath +"]";
         return  string;

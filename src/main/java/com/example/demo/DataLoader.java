@@ -89,16 +89,21 @@ public class DataLoader implements CommandLineRunner {
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
                 LocalDateTime.of(2019, 02, 14,05,06),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1553267514/victor.png",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1561973133/victor.png",
                 admin);
         messageRepository.save(message);
+
+        //Add Following
+        Set<User> following = new HashSet<>();
+        following.add(moe);
+        dave.setFollowers(following);
 
         //Add followers
         Set<User> followers = new HashSet<>();
         followers.add(moe);
         followers.add(tolani);
         dave.setFollowings(followers);
-        dave.setFollowers(Arrays.asList(moe).stream().collect(Collectors.toSet()));
+
         userRepository.save(dave);
     }
 }
