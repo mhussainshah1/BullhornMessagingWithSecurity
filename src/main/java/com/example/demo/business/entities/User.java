@@ -165,7 +165,7 @@ public class User {
         this.messages = messages;
     }
 
-    public boolean isFollowing(User user){
+    public boolean isFollowing(User user) {
         return followings.contains(user);
     }
 

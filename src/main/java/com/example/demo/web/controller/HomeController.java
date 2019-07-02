@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -171,8 +169,6 @@ public class HomeController {
         User follow = userRepository.findById(id).get();
         User myuser = userService.getUser();
         myuser.addFollowing(follow);
-        //myuser.getFollowers().add(follow);
-
         userRepository.save(myuser);
         return "redirect:/";
     }
@@ -181,7 +177,7 @@ public class HomeController {
     public String unfollow(@PathVariable("id") long id, Model model) {
         User follow = userRepository.findById(id).get();
         User myuser = userService.getUser();
-        myuser.getFollowings().remove(follow);
+        myuser.removeFollowing(follow);
         userRepository.save(myuser);
         return "redirect:/";
     }
@@ -190,6 +186,7 @@ public class HomeController {
     //Use the below code INSIDE METHOD to pass user into view
     @RequestMapping("/secure")
     public String secure(Principal principal, Model model) {
+
         User myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())

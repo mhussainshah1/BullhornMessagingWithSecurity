@@ -14,10 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -66,7 +62,7 @@ public class DataLoader implements CommandLineRunner {
 
         Message message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
-                LocalDateTime.of(2019, 05, 15,14,15),
+                LocalDateTime.of(2019, 05, 15, 14, 15),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png",
                 dave);
         messageRepository.save(message);
@@ -81,31 +77,24 @@ public class DataLoader implements CommandLineRunner {
         message = new Message("Independence Day",
                 "I am proud to be an American where at least i am free. " +
                         "I wont forget men who die gave that right to me",
-                LocalDateTime.of(2019, 07, 04,10,11),
+                LocalDateTime.of(2019, 07, 04, 10, 11),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg",
                 tolani);
         messageRepository.save(message);
 
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
-                LocalDateTime.of(2019, 02, 14,05,06),
+                LocalDateTime.of(2019, 02, 14, 05, 06),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1561973133/victor.png",
                 admin);
         messageRepository.save(message);
 
         //Add followers
         dave.addFollower(admin);
+
         //Add Following
         dave.addFollowing(moe);
         dave.addFollowing(tolani);
         userRepository.save(dave);
-
-
-    /*    Set<User> followers = new HashSet<>();
-        followers.add(moe);
-        followers.add(tolani);
-        dave.setFollowings(followers);
-
-        userRepository.save(dave);*/
     }
 }
