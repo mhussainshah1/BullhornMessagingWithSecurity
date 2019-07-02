@@ -145,6 +145,7 @@ public class HomeController {
     public String getUser(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id).get();
         model.addAttribute("user", user);
+        model.addAttribute("myuser", userService.getUser());
         model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
         return "peopleprofile";
     }
@@ -153,7 +154,7 @@ public class HomeController {
     public String getFollowers(Model model) {
         model.addAttribute("message", "My Followers");
         model.addAttribute("md5Util", new MD5Util());
-        model.addAttribute("users", userRepository.findAllByFollowers(userService.getUser()));
+        model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
         return "peoplelist";
     }
 
@@ -161,7 +162,7 @@ public class HomeController {
     public String getFollowing(Model model) {
         model.addAttribute("message", "People I`m Following");
         model.addAttribute("md5Util", new MD5Util());
-        model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
+        model.addAttribute("users", userRepository.findAllByFollowers(userService.getUser()));
         return "peoplelist";
     }
 
@@ -169,9 +170,10 @@ public class HomeController {
     public String follow(@PathVariable("id") long id, Model model) {
         User follow = userRepository.findById(id).get();
         User myuser = userService.getUser();
-//        myuser.getFollowings().add(follow);
-        myuser.setFollowings(Arrays.asList(follow).stream().collect(Collectors.toSet()));
-        userRepository.save(follow);
+        myuser.addFollowing(follow);
+        //myuser.getFollowers().add(follow);
+
+        userRepository.save(myuser);
         return "redirect:/";
     }
 

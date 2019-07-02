@@ -10,10 +10,10 @@
 <body>
 <div th:replace="base::nav"></div>
 <div class="container">
-    <div class="jumbotron lead">
-        <h2 align="center"> Blog Post </h2>
+    <div class="jumbotron lead text-center">
+        <h2> Blog Post </h2>
     </div>
-    <table class="table table-striped" style="width:100%">
+    <table class="table table-hover table-striped" style="width:100%">
         <thead class="thead-light">
         <tr>
             <th sec:authorize="hasAuthority('ADMIN')">Select</th>
@@ -33,7 +33,6 @@
             <td>
                 <a th:href="@{/detail/{id}(id=*{id})}" th:text="*{title}"></a>
             </td>
-<!--            <td><a>[[*{content}]]</a></td>-->
 
             <td>
                 <span th:text="${#temporals.format(message.postedDateTime, 'dd MMM yyyy, hh:mm')}"></span>

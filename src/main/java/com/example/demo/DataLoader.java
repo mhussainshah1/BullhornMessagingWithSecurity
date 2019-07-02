@@ -93,17 +93,19 @@ public class DataLoader implements CommandLineRunner {
                 admin);
         messageRepository.save(message);
 
-        //Add Following
-        Set<User> following = new HashSet<>();
-        following.add(moe);
-        dave.setFollowers(following);
-
         //Add followers
-        Set<User> followers = new HashSet<>();
+        dave.addFollower(admin);
+        //Add Following
+        dave.addFollowing(moe);
+        dave.addFollowing(tolani);
+        userRepository.save(dave);
+
+
+    /*    Set<User> followers = new HashSet<>();
         followers.add(moe);
         followers.add(tolani);
         dave.setFollowings(followers);
 
-        userRepository.save(dave);
+        userRepository.save(dave);*/
     }
 }

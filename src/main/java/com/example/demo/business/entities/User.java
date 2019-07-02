@@ -68,6 +68,7 @@ public class User {
                 @NotEmpty String lastName,
                 @AssertTrue boolean enabled,
                 @NotEmpty String username) {
+        this();
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -164,21 +165,38 @@ public class User {
         this.messages = messages;
     }
 
-   /* public void addFollower(User follower) {
+    public boolean isFollowing(User user){
+        return followings.contains(user);
+    }
+
+    public void addFollower(User follower) {
         followers.add(follower);
-        follower.followings.add(this);
+        //follower.followings.add(this);
     }
 
     public void removeFollower(User follower) {
         followers.remove(follower);
-        follower.followings.remove(this);
+        //follower.followings.remove(this);
     }
 
     public void addFollowing(User followed) {
-        followed.addFollower(this);
+        followings.add(followed);
+        //followed.addFollower(this);
     }
 
     public void removeFollowing(User followed) {
-        followed.removeFollower(this);
-    }*/
+        followings.remove(followed);
+        //followed.removeFollower(this);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }
