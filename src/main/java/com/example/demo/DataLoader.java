@@ -91,6 +91,7 @@ public class DataLoader implements CommandLineRunner {
 
         //Add followers
         dave.addFollower(admin);
+        userRepository.save(admin);
 
         //Add Following
         dave.addFollowing(moe);

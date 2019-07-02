@@ -171,12 +171,12 @@ public class User {
 
     public void addFollower(User follower) {
         followers.add(follower);
-        //follower.followings.add(this);
+        follower.followings.add(this);
     }
 
     public void removeFollower(User follower) {
         followers.remove(follower);
-        //follower.followings.remove(this);
+        follower.followings.remove(this);
     }
 
     public void addFollowing(User followed) {
