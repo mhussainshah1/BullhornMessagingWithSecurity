@@ -10,7 +10,7 @@ public class InvalidPassword {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    //@Column(unique = true)
+    @Column(unique = true)
     @NotEmpty
     private String value;
 
