@@ -2,6 +2,7 @@ package com.example.demo.business.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class InvalidPassword {
@@ -9,7 +10,7 @@ public class InvalidPassword {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique = true)
+    //@Column(unique = true)
     @NotEmpty
     private String value;
 

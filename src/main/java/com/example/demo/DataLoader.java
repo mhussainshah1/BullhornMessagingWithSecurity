@@ -52,11 +52,11 @@ public class DataLoader implements CommandLineRunner {
         moe.setPassword(userService.encode(moe.getPassword()));
         userService.saveUser(moe);
 
-        User tolani = new User("tolani.oyefule@gmail.com", "password", "Tolani", "Oyefule", true, "lan");
+        User tolani = new User("xdwr@my.qsl.ro", "password", "Tolani", "Oyefule", true, "lan");
         tolani.setPassword(userService.encode(tolani.getPassword()));
         userService.saveUser(tolani);
 
-        User admin = new User("admin@admin.com", "password", "Admin", "User", true, "admin");
+        User admin = new User("study.javaclass@gmail.com", "password", "Admin", "User", true, "admin");
         admin.setPassword(userService.encode(admin.getPassword()));
         userService.saveAdmin(admin);
 
