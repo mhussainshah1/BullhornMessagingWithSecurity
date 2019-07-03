@@ -1,17 +1,28 @@
 package com.example.demo.web.controller;
 
+import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
+import com.example.demo.business.entities.repositories.MessageRepository;
+import com.example.demo.business.entities.repositories.UserRepository;
 import com.example.demo.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class LoginController {
+    @Autowired
+    MessageRepository messageRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     UserService userService;
@@ -28,20 +39,76 @@ public class LoginController {
 
     @GetMapping("/register")
     public String showRegistrationPage(Model model) {
+        model.addAttribute("page_title","New User Registration");
         model.addAttribute("user", new User());
         return "register";
     }
 
-    @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, @RequestParam("password") String pw) {
-        System.out.println("pw: " + pw);
+/*    @PostMapping("/register")
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user,
+                                          BindingResult result, Model model,
+                                          @RequestParam("password") String password) {
+        System.out.println("password: " + password);
+        model.addAttribute("page_title","Update Profile");
         if (result.hasErrors()) {
-            model.addAttribute("user", user);
             return "register";
         } else {
-            user.setPassword(userService.encode(pw));
+            user.setPassword(userService.encode(password));
             userService.saveUser(user);
             model.addAttribute("message", "New User Account Created");
+        }
+        return "login";
+    }*/
+
+    @PostMapping("/register")
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user,
+                                          BindingResult result,
+                                          Model model,
+                                          @RequestParam("password") String password) {
+        model.addAttribute("page_title","Update Profile");
+        if (result.hasErrors()) {
+            return "register";
+        } else {
+            System.out.println(user);
+            //Update User and Admin
+            boolean isUser = userRepository.findById(user.getId()).isPresent();
+            if (isUser) {
+                Iterable<Message> messages = messageRepository.findAllByUser(user);
+                for (Message message : messages) {
+                    messageRepository.save(message);
+                    user.getMessages().add(message);
+                }
+                //updating with existed username
+                if (userRepository.findByUsername(user.getUsername())!= null &&
+                        //current user
+                        !userRepository.findByUsername(user.getUsername()).equals(user)) {
+                    model.addAttribute("message",
+                            "We already have a username called " + user.getUsername() + "!" + " Try something else.");
+                    return "register";
+                }
+                if (userService.isUser()) {
+                    user.setPassword(userService.encode(password));
+                    userService.saveUser(user);
+                }
+                if (userService.isAdmin()) {
+                    user.setPassword(userService.encode(password));
+                    userService.saveAdmin(user);
+                }
+                model.addAttribute("message","User Account Successfully Updated");
+            }
+            //New User
+            else {
+                //Registering with existed username
+                if (userRepository.findByUsername(user.getUsername()) != null) {
+                    model.addAttribute("message",
+                            "We already have a username called " + user.getUsername() + "!" + " Try something else.");
+                    return "register";
+                } else {
+                    user.setPassword(userService.encode(password));
+                    userService.saveUser(user);
+                    model.addAttribute("message","User Account Successfully Created");
+                }
+            }
         }
         return "login";
     }
@@ -51,4 +118,17 @@ public class LoginController {
         return "termsandconditions";
     }
 
+    @RequestMapping("/updateUser")
+    public String viewUser(Model model,
+                           HttpServletRequest request,
+                           Authentication authentication,
+                           Principal principal) {
+       /* Boolean isAdmin = request.isUserInRole("ADMIN");
+        Boolean isUser = request.isUserInRole("USER");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
+//        String username = principal.getName();
+        model.addAttribute("page_title","Update Profile");
+        model.addAttribute("user", userService.getUser());
+        return "register";
+    }
 }

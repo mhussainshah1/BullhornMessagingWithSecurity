@@ -1,5 +1,7 @@
 package com.example.demo.business.entities;
 
+import com.example.demo.business.util.ValidPassword;
+
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -44,7 +46,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     //for Messages
     @OneToMany(mappedBy = "user")
@@ -58,6 +60,8 @@ public class User {
     private Set<User> followers;
 
     public User() {
+        roles = new HashSet<>();
+        messages = new HashSet<>();
         followers = new HashSet<>();
         followings = new HashSet<>();
     }
@@ -133,11 +137,11 @@ public class User {
         this.username = username;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -198,5 +202,22 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+        if (id != user.id) return false;
+        return username.equals(user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + username.hashCode();
+        return result;
     }
 }

@@ -2,27 +2,39 @@ package com.example.demo.business.util;
 //todo: change reading from datatbase rather than text file reference is on
 // http://www.passay.org/reference/
 
+import com.example.demo.business.entities.InvalidPassword;
+import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import org.passay.*;
+import org.passay.dictionary.ArrayWordList;
 import org.passay.dictionary.WordListDictionary;
 import org.passay.dictionary.WordLists;
 import org.passay.dictionary.sort.ArraysSort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Configuration
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
+    @Autowired
+    private InvalidPasswordRepository invalidPasswordRepository;
 
     private DictionaryRule dictionaryRule;
 
     @Override
     public void initialize(ValidPassword constraintAnnotation) {
-        try {
-            String invalidPasswordList = this.getClass().getResource("invalid-password-list.txt").getFile();
+
+        //Option 1 : Through File
+        /*try {
+            String invalidPasswordList = this.getClass().getResource("/invalid-password-list.txt").getFile();
             dictionaryRule = new DictionaryRule(
                     new WordListDictionary(WordLists.createFromReader(
                             // Reader around the word list file
@@ -36,15 +48,32 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                     )));
         } catch (IOException e) {
             throw new RuntimeException("could not load word list", e);
-        }
+        }*/
+
+        //Option 2 : Through Database
+        List<String> passwords = new ArrayList<>();
+//        invalidPasswordRepository.findAll().forEach(p -> passwords.add(p.getValue()));
+
+        /* for (InvalidPassword password : invalidPasswordRepository.findAll()) {
+            System.out.println("invalid password = " + password.getValue());
+            passwords.add(password.getValue());
+        }*/
+        passwords.add("azerty12!");
+        passwords.add("12345678!");
+        passwords.add("password123");
+
+        Collections.sort(passwords);
+        dictionaryRule = new DictionaryRule(
+                new WordListDictionary(
+                        new ArrayWordList(passwords.stream().toArray(String[]::new))));
+
     }
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
-
                 // at least 8 characters
-                new LengthRule(8, 100),
+                new LengthRule(8, 60),
 
                 // at least one upper-case character
                 new CharacterRule(EnglishCharacterData.UpperCase, 1),
@@ -78,4 +107,5 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 .disableDefaultConstraintViolation();
         return false;
     }
+
 }
