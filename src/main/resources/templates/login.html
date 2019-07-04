@@ -24,8 +24,7 @@
         You have been logged out
     </div>
 
-    <div th:if="${param.message}">
-        <span th:text="${message}"></span>
+    <div th:text="${message}">
     </div>
 
     <form method="post" th:action="@{/login}">

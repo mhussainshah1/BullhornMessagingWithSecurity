@@ -4,6 +4,7 @@ package com.example.demo.business.util;
 
 import com.example.demo.business.entities.InvalidPassword;
 import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
+import com.example.demo.business.services.PasswordService;
 import org.passay.*;
 import org.passay.dictionary.ArrayWordList;
 import org.passay.dictionary.WordListDictionary;
@@ -24,10 +25,12 @@ import java.util.stream.Collectors;
 
 @Configuration
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
-    @Autowired
-    private InvalidPasswordRepository invalidPasswordRepository;
+
 
     private DictionaryRule dictionaryRule;
+
+    @Autowired
+    PasswordService passwordService;
 
     @Override
     public void initialize(ValidPassword constraintAnnotation) {
@@ -52,21 +55,16 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
         //Option 2 : Through Database
         List<String> passwords = new ArrayList<>();
-//        invalidPasswordRepository.findAll().forEach(p -> passwords.add(p.getValue()));
+        //passwordService.getPasswords();
 
-        /* for (InvalidPassword password : invalidPasswordRepository.findAll()) {
-            System.out.println("invalid password = " + password.getValue());
-            passwords.add(password.getValue());
-        }*/
         passwords.add("azerty12!");
         passwords.add("12345678!");
         passwords.add("password123");
-
         Collections.sort(passwords);
+
         dictionaryRule = new DictionaryRule(
                 new WordListDictionary(
                         new ArrayWordList(passwords.stream().toArray(String[]::new))));
-
     }
 
     @Override

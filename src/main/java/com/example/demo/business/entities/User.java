@@ -23,7 +23,7 @@ public class User {
     private String email;
 
     @NotEmpty
-    //@ValidPassword
+    @ValidPassword
     @Column(name = "password")
     private String password;
 
