@@ -44,27 +44,12 @@ public class LoginController {
         return "register";
     }
 
-/*    @PostMapping("/register")
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user,
-                                          BindingResult result, Model model,
-                                          @RequestParam("password") String password) {
-        System.out.println("password: " + password);
-        model.addAttribute("page_title","Update Profile");
-        if (result.hasErrors()) {
-            return "register";
-        } else {
-            user.setPassword(userService.encode(password));
-            userService.saveUser(user);
-            model.addAttribute("message", "New User Account Created");
-        }
-        return "login";
-    }*/
-
     @PostMapping("/register")
     public String processRegistrationPage(@Valid @ModelAttribute("user") User user,
                                           BindingResult result,
-                                          Model model,
-                                          @RequestParam("password") String password) {
+                                          Model model/*,
+                                          @RequestParam("password") String password*/
+    ) {
         model.addAttribute("page_title","Update Profile");
         if (result.hasErrors()) {
             return "register";
@@ -73,11 +58,6 @@ public class LoginController {
             //Update User and Admin
             boolean isUser = userRepository.findById(user.getId()).isPresent();
             if (isUser) {
-                Iterable<Message> messages = messageRepository.findAllByUser(user);
-                for (Message message : messages) {
-                    messageRepository.save(message);
-                    user.getMessages().add(message);
-                }
                 //updating with existed username
                 if (userRepository.findByUsername(user.getUsername())!= null &&
                         //current user
@@ -86,14 +66,15 @@ public class LoginController {
                             "We already have a username called " + user.getUsername() + "!" + " Try something else.");
                     return "register";
                 }
-                if (userService.isUser()) {
-                    user.setPassword(userService.encode(password));
-                    userService.saveUser(user);
-                }
-                if (userService.isAdmin()) {
-                    user.setPassword(userService.encode(password));
-                    userService.saveAdmin(user);
-                }
+
+                User user1 = userRepository.findById(user.getId()).get();
+                user1.setFirstName(user.getFirstName());
+                user1.setLastName(user.getLastName());
+                user1.setEmail(user.getEmail());
+                user1.setUsername(user.getUsername());
+                user1.setPassword(userService.encode(user.getPassword()));
+                user1.setEnabled(user.isEnabled());
+                userRepository.save(user1);
                 model.addAttribute("message","User Account Successfully Updated");
             }
             //New User
@@ -104,7 +85,7 @@ public class LoginController {
                             "We already have a username called " + user.getUsername() + "!" + " Try something else.");
                     return "register";
                 } else {
-                    user.setPassword(userService.encode(password));
+                    user.setPassword(userService.encode(user.getPassword()));
                     userService.saveUser(user);
                     model.addAttribute("message","User Account Successfully Created");
                 }

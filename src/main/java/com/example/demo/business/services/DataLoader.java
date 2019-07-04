@@ -44,20 +44,36 @@ public class DataLoader implements CommandLineRunner {
         invalidPasswordRepository.save(new InvalidPassword("12345678!"));
         invalidPasswordRepository.save(new InvalidPassword("password123"));
 
-        User dave = new User("dave45678@gmail.com", "password", "David", "Wolf", true, "dave");
-        dave.setPassword(userService.encode(dave.getPassword()));
+        User dave = new User("dave45678@gmail.com",
+                userService.encode("password"),
+                "David",
+                "Wolf",
+                true,
+                "dave");
         userService.saveUser(dave);
 
-        User moe = new User("mhussainshah79@gmail.com", "password", "Muhammad", "Shah", true, "moe");
-        moe.setPassword(userService.encode(moe.getPassword()));
+        User moe = new User("mhussainshah79@gmail.com",
+                userService.encode("password"),
+                "Muhammad",
+                "Shah",
+                true,
+                "moe");
         userService.saveUser(moe);
 
-        User tolani = new User("xdwr@my.qsl.ro", "password", "Tolani", "Oyefule", true, "lan");
-        tolani.setPassword(userService.encode(tolani.getPassword()));
+        User tolani = new User("xdwr@my.qsl.ro",
+                userService.encode("password"),
+                "Tolani",
+                "Oyefule",
+                true,
+                "lan");
         userService.saveUser(tolani);
 
-        User admin = new User("study.javaclass@gmail.com", "password", "Admin", "User", true, "admin");
-        admin.setPassword(userService.encode(admin.getPassword()));
+        User admin = new User("study.javaclass@gmail.com",
+                userService.encode("password"),
+                "Admin",
+                "User",
+                true,
+                "admin");
         userService.saveAdmin(admin);
 
         Message message = new Message("Mother's Day",
