@@ -54,7 +54,6 @@ public class LoginController {
         if (result.hasErrors()) {
             return "register";
         } else {
-            System.out.println(user);
             //Update User and Admin
             boolean isUser = userRepository.findById(user.getId()).isPresent();
             if (isUser) {
@@ -67,14 +66,14 @@ public class LoginController {
                     return "register";
                 }
 
-                User user1 = userRepository.findById(user.getId()).get();
-                user1.setFirstName(user.getFirstName());
-                user1.setLastName(user.getLastName());
-                user1.setEmail(user.getEmail());
-                user1.setUsername(user.getUsername());
-                user1.setPassword(userService.encode(user.getPassword()));
-                user1.setEnabled(user.isEnabled());
-                userRepository.save(user1);
+                User userInDB = userRepository.findById(user.getId()).get();
+                userInDB.setFirstName(user.getFirstName());
+                userInDB.setLastName(user.getLastName());
+                userInDB.setEmail(user.getEmail());
+                userInDB.setUsername(user.getUsername());
+                userInDB.setPassword(userService.encode(user.getPassword()));
+                userInDB.setEnabled(user.isEnabled());
+                userRepository.save(userInDB);
                 model.addAttribute("message","User Account Successfully Updated");
             }
             //New User
