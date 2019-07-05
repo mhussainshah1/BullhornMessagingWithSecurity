@@ -134,8 +134,10 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-        model.addAttribute("user", userService.getUser());
-        model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
+        User user =  userService.getUser();
+        model.addAttribute("user", user);
+        model.addAttribute("myuser", user);
+        model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail()));
         return "profile";
     }
 
