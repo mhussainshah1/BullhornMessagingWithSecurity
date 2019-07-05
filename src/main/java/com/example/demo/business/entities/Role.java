@@ -2,6 +2,7 @@ package com.example.demo.business.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -11,7 +12,7 @@ public class Role {
     private long id;
 
     @Column(unique = true)
-    @NotEmpty
+    @Size(min = 0, max = 32)
     private String role;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
