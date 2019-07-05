@@ -1,6 +1,5 @@
 package com.example.demo.web.controller;
 
-import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
@@ -10,7 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -39,7 +41,7 @@ public class LoginController {
 
     @GetMapping("/register")
     public String showRegistrationPage(Model model) {
-        model.addAttribute("page_title","New User Registration");
+        model.addAttribute("page_title", "New User Registration");
         model.addAttribute("user", new User());
         return "register";
     }
@@ -50,7 +52,7 @@ public class LoginController {
                                           Model model/*,
                                           @RequestParam("password") String password*/
     ) {
-        model.addAttribute("page_title","Update Profile");
+        model.addAttribute("page_title", "Update Profile");
         if (result.hasErrors()) {
             return "register";
         } else {
@@ -58,7 +60,7 @@ public class LoginController {
             boolean isUser = userRepository.findById(user.getId()).isPresent();
             if (isUser) {
                 //updating with existed username
-                if (userRepository.findByUsername(user.getUsername())!= null &&
+                if (userRepository.findByUsername(user.getUsername()) != null &&
                         //current user
                         !userRepository.findByUsername(user.getUsername()).equals(user)) {
                     model.addAttribute("message",
@@ -74,7 +76,7 @@ public class LoginController {
                 userInDB.setPassword(userService.encode(user.getPassword()));
                 userInDB.setEnabled(user.isEnabled());
                 userRepository.save(userInDB);
-                model.addAttribute("message","User Account Successfully Updated");
+                model.addAttribute("message", "User Account Successfully Updated");
             }
             //New User
             else {
@@ -86,7 +88,7 @@ public class LoginController {
                 } else {
                     user.setPassword(userService.encode(user.getPassword()));
                     userService.saveUser(user);
-                    model.addAttribute("message","User Account Successfully Created");
+                    model.addAttribute("message", "User Account Successfully Created");
                 }
             }
         }
@@ -107,7 +109,7 @@ public class LoginController {
         Boolean isUser = request.isUserInRole("USER");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
 //        String username = principal.getName();
-        model.addAttribute("page_title","Update Profile");
+        model.addAttribute("page_title", "Update Profile");
         model.addAttribute("user", userService.getUser());
         return "register";
     }

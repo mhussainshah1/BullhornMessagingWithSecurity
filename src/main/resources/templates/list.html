@@ -18,7 +18,7 @@
         <tr>
             <th sec:authorize="hasAuthority('ADMIN')">Select</th>
             <th>Title</th>
-<!--            <th>Content</th>-->
+            <!--            <th>Content</th>-->
             <th>Posted Date</th>
             <th>Posted By</th>
             <th>Picture</th>
@@ -45,7 +45,7 @@
             </td>
 
             <td><img id="gravatar"
-                     th:alt= "gravatar"
+                     th:alt="gravatar"
                      th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(message.user.email)} + '?s=40'}"></td>
 
             <td sec:authorize="isAuthenticated()">

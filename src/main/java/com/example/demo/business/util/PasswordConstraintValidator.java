@@ -2,21 +2,15 @@ package com.example.demo.business.util;
 //todo: change reading from datatbase rather than text file reference is on
 // http://www.passay.org/reference/
 
-import com.example.demo.business.entities.InvalidPassword;
-import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import com.example.demo.business.services.PasswordService;
 import org.passay.*;
 import org.passay.dictionary.ArrayWordList;
 import org.passay.dictionary.WordListDictionary;
-import org.passay.dictionary.WordLists;
-import org.passay.dictionary.sort.ArraysSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,10 +21,9 @@ import java.util.stream.Collectors;
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
 
-    private DictionaryRule dictionaryRule;
-
     @Autowired
     PasswordService passwordService;
+    private DictionaryRule dictionaryRule;
 
     @Override
     public void initialize(ValidPassword constraintAnnotation) {

@@ -145,7 +145,7 @@ public class HomeController {
         model.addAttribute("user", user);
         model.addAttribute("myuser", userService.getUser());
         model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
-        return "peopleprofile";
+        return "profile";
     }
 
     @RequestMapping("/followers")

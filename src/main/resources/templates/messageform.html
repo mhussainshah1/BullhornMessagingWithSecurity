@@ -7,10 +7,10 @@
 <body>
 <div th:replace="base::nav"></div>
 
-<div align="center" class="container col-md-6 col-md-offset-3">
+<div class="container col-md-6 col-md-offset-3 text-center">
 
     <div class="jumbotron lead">
-        <h2 align="center">Blog</h2>
+        <h2>Blog</h2>
     </div>
 
     <form action="#" enctype="multipart/form-data" method="post"
@@ -44,20 +44,20 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="file"> Picture:</label>
                 <div class="col-sm-10">
-                    <input id="file" type="file" class="form-control-file border" name="file">
+                    <input class="form-control-file border" id="file" name="file" type="file">
                     (Update or add new image)
                 </div>
             </div>
 
-            <div class="form-group row" th:unless="(*{picturePath.isEmpty()})" >
+            <div class="form-group row" th:unless="(*{picturePath.isEmpty()})">
                 <input th:field="*{picturePath}" type="hidden"><!--[[*{picturePath}]]-->
                 <label class="col-sm-2 col-form-label" for="file"></label>
-                    <div class="col-sm-10">
-                        <img class="profile-picture" th:alt="Picture" th:src="*{picturePath}"/><br/>
-                    </div>
-                    <span class="error-message"
-                          th:if="${#fields.hasErrors('picturePath')}"
-                          th:errors="*{picturePath}"></span>
+                <div class="col-sm-10">
+                    <img class="profile-picture" th:alt="Picture" th:src="*{picturePath}"/><br/>
+                </div>
+                <span class="error-message"
+                      th:errors="*{picturePath}"
+                      th:if="${#fields.hasErrors('picturePath')}"></span>
             </div>
 
             <div class="form-group row">

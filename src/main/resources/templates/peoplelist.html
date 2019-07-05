@@ -10,9 +10,9 @@
 <body>
 <div th:replace="base::nav"></div>
 
-<div class="container">
+<div class="container text-center">
     <div class="jumbotron lead">
-        <h2 class="text-center" th:text="${message}"></h2>
+        <h2 th:text="${message}"></h2>
     </div>
     <!--insert webpage content here-->
     <form method="post" th:action="@{/process}">
