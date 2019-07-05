@@ -1,8 +1,10 @@
 package com.example.demo.web.controller;
 
 import com.cloudinary.utils.ObjectUtils;
+import com.example.demo.business.entities.Follower;
 import com.example.demo.business.entities.Message;
 import com.example.demo.business.entities.User;
+import com.example.demo.business.entities.repositories.FollowerRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
 import com.example.demo.business.services.CloudinaryConfig;
@@ -30,6 +32,9 @@ public class HomeController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    FollowerRepository followerRepository;
 
     @Autowired
     CloudinaryConfig cloudc;
@@ -152,7 +157,7 @@ public class HomeController {
     public String getFollowers(Model model) {
         model.addAttribute("message", "My Followers");
         model.addAttribute("md5Util", new MD5Util());
-        model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
+//        model.addAttribute("users", userRepository.findAllByFollowings(userService.getUser()));
         return "peoplelist";
     }
 
@@ -168,16 +173,16 @@ public class HomeController {
     public String follow(@PathVariable("id") long id, Model model) {
         User follow = userRepository.findById(id).get();
         User myuser = userService.getUser();
-        myuser.addFollowing(follow);
+        myuser.addFollower(follow);
         userRepository.save(myuser);
         return "redirect:/";
     }
 
     @RequestMapping("/unfollow/{id}")
     public String unfollow(@PathVariable("id") long id, Model model) {
-        User follow = userRepository.findById(id).get();
+        Follower follow = followerRepository.findById(id).get();
         User myuser = userService.getUser();
-        myuser.removeFollowing(follow);
+        myuser.removeFollower(follow);
         userRepository.save(myuser);
         return "redirect:/";
     }

@@ -1,13 +1,11 @@
 package com.example.demo.business.services;
 
-import com.example.demo.business.entities.InvalidPassword;
-import com.example.demo.business.entities.Message;
-import com.example.demo.business.entities.Role;
-import com.example.demo.business.entities.User;
+import com.example.demo.business.entities.*;
 import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.RoleRepository;
 import com.example.demo.business.entities.repositories.UserRepository;
+import com.example.demo.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -105,12 +103,12 @@ public class DataLoader implements CommandLineRunner {
         messageRepository.save(message);
 
         //Add followers
-        dave.addFollower(admin);
+    /*       dave.addFollower((Follower) admin);
         userRepository.save(admin);
 
-        //Add Following
+     //Add Following
         dave.addFollowing(moe);
         dave.addFollowing(tolani);
-        userRepository.save(dave);
+        userRepository.save(dave);*/
     }
 }

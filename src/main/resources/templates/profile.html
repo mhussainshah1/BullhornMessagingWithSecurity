@@ -16,10 +16,10 @@
     </div>
 
     <div sec:authorize="isAuthenticated()" th:if="${user.id != myuser.id}">
-        <span th:if="${myuser.isFollowing(user)}">
+        <span th:if="${myuser.isFollower(user)}">
                 <a class="btn btn-danger" th:href="@{/unfollow/{id}(id=${user.id})}">Unfollow</a>
         </span>
-        <span th:unless="${myuser.isFollowing(user)}">
+        <span th:unless="${myuser.isFollower(user)}">
                 <a class="btn btn-success" th:href="@{/follow/{id}(id=${user.id})}">Follow</a>
         </span>
     </div>
