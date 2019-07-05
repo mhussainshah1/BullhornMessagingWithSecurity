@@ -53,20 +53,17 @@ public class User {
     private Set<Message> messages;
 
     //For followers and following
-   /* @ManyToMany
+    @ManyToMany
     private Set<User> followings;
 
     @ManyToMany(mappedBy = "followings")
-    private Set<User> followers;*/
-
-    @OneToMany(mappedBy = "user")
-    private Set<Follower> followers;
+    private Set<User> followers;
 
     public User() {
         roles = new HashSet<>();
         messages = new HashSet<>();
         followers = new HashSet<>();
-//        followings = new HashSet<>();
+        followings = new HashSet<>();
     }
 
     public User(@NotEmpty @Email String email,
@@ -148,21 +145,21 @@ public class User {
         this.roles = roles;
     }
 
-    public Set<Follower> getFollowers() {
+    public Set<User> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(Set<Follower> followers) {
+    public void setFollowers(Set<User> followers) {
         this.followers = followers;
     }
 
-/*    public Set<User> getFollowings() {
+    public Set<User> getFollowings() {
         return followings;
     }
 
     public void setFollowings(Set<User> followings) {
         this.followings = followings;
-    }*/
+    }
 
     public Set<Message> getMessages() {
         return messages;
@@ -172,25 +169,21 @@ public class User {
         this.messages = messages;
     }
 
-   /* public boolean isFollowing(User user) {
+    public boolean isFollowing(User user) {
         return followings.contains(user);
-    }*/
-
-    public boolean isFollower(User user) {
-        return followers.contains(user);
     }
 
     public void addFollower(User follower) {
         followers.add(follower);
-//        follower.followings.add(this);
+        follower.followings.add(this);
     }
 
-    public void removeFollower(Follower follower) {
+    public void removeFollower(User follower) {
         followers.remove(follower);
-//        follower.followings.remove(this);
+        follower.followings.remove(this);
     }
 
-/*    public void addFollowing(User followed) {
+    public void addFollowing(User followed) {
         followings.add(followed);
         //followed.addFollower(this);
     }
@@ -198,7 +191,7 @@ public class User {
     public void removeFollowing(User followed) {
         followings.remove(followed);
         //followed.removeFollower(this);
-    }*/
+    }
 
     @Override
     public String toString() {

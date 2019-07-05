@@ -1,6 +1,9 @@
 package com.example.demo.business.services;
 
-import com.example.demo.business.entities.*;
+import com.example.demo.business.entities.InvalidPassword;
+import com.example.demo.business.entities.Message;
+import com.example.demo.business.entities.Role;
+import com.example.demo.business.entities.User;
 import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import com.example.demo.business.entities.repositories.MessageRepository;
 import com.example.demo.business.entities.repositories.RoleRepository;
@@ -103,12 +106,12 @@ public class DataLoader implements CommandLineRunner {
         messageRepository.save(message);
 
         //Add followers
-    /*       dave.addFollower((Follower) admin);
+        dave.addFollower(admin);
         userRepository.save(admin);
 
-     //Add Following
+        //Add Following
         dave.addFollowing(moe);
         dave.addFollowing(tolani);
-        userRepository.save(dave);*/
+        userRepository.save(dave);
     }
 }

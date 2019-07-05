@@ -16,5 +16,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Set<User> findAllByFollowers(User user);
 
-//    Set<User> findAllByFollowings(User user);
+    Set<User> findAllByFollowings(User user);
 }
