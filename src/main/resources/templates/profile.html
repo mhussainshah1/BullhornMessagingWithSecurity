@@ -15,7 +15,7 @@
         <h2 th:text="${user.firstName} +' ' +${user.lastName}"></h2>
     </div>
 
-    <div th:if="${user.id != myuser.id}" sec:authorize="isAuthenticated()">
+    <div sec:authorize="isAuthenticated()" th:if="${user.id != myuser.id}">
         <span th:if="${myuser.isFollowing(user)}">
                 <a class="btn btn-danger" th:href="@{/unfollow/{id}(id=${user.id})}">Unfollow</a>
         </span>
