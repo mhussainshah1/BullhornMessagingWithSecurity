@@ -41,6 +41,7 @@ public class HomeController {
     @RequestMapping("/admin")
     public String admin(Model model) {
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("mD5Util", new MD5Util());
         return "admin";
     }
 
@@ -124,6 +125,15 @@ public class HomeController {
     @RequestMapping("/delete/{id}")
     public String deleteMessage(@PathVariable("id") long id) {
         messageRepository.deleteById(id);
+        return "redirect:/";
+    }
+
+    @PostMapping("/check")
+    public String check(@RequestParam("check") long[] ids,
+                        Model model) {
+        for (long id : ids) {
+            messageRepository.deleteById(id);
+        }
         return "redirect:/";
     }
 

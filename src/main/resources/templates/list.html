@@ -13,55 +13,62 @@
     <div class="jumbotron lead text-center">
         <h2> Blog Post </h2>
     </div>
-    <table class="table table-hover table-striped" style="width:100%">
-        <thead class="thead-light">
-        <tr>
-            <th sec:authorize="hasAuthority('ADMIN')">Select</th>
-            <th>Title</th>
-            <!--            <th>Content</th>-->
-            <th>Posted Date</th>
-            <th>Posted By</th>
-            <th>Picture</th>
-            <th sec:authorize="isAuthenticated()">Actions</th>
-        </tr>
-        </thead>
-        <!--enhanced for loop-->
-        <tr th:each="message : ${messages}" th:object="${message}">
-            <td sec:authorize="hasAuthority('ADMIN')">
-                <input type="checkbox">
-            </td>
-            <td>
-                <a th:href="@{/detail/{id}(id=*{id})}" th:text="*{title}"></a>
-            </td>
+    <form action="#" method="post" th:action="@{/check}">
+        <span sec:authorize="isAuthenticated()">
+             <button class="btn btn-link" type="submit">Delete Selected</button>
+        </span>
 
-            <td>
-                <span th:text="${#temporals.format(message.postedDateTime, 'dd MMM yyyy, hh:mm')}"></span>
-            </td>
+        <table class="table table-hover table-striped" style="width:100%">
+            <thead class="thead-light">
+            <tr>
+                <th sec:authorize="hasAuthority('ADMIN')">Select</th>
+                <th>Title</th>
+                <!--            <th>Content</th>-->
+                <th>Posted Date</th>
+                <th>Posted By</th>
+                <th>Picture</th>
+                <th sec:authorize="isAuthenticated()">Actions</th>
+            </tr>
+            </thead>
+            <!--enhanced for loop-->
+            <tr th:each="message : ${messages}" th:object="${message}">
+                <td sec:authorize="hasAuthority('ADMIN')">
+                    <input name="check" th:value="${message.id}" type="checkbox">
+                </td>
+                <td>
+                    <a th:href="@{/detail/{id}(id=*{id})}" th:text="*{title}"></a>
+                </td>
 
-            <td>
-                <strong>
-                    <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
-                </strong>
-            </td>
+                <td>
+                    <span th:text="${#temporals.format(message.postedDateTime, 'dd MMM yyyy, hh:mm a')}"></span>
+                </td>
 
-            <td><img id="gravatar"
-                     th:alt="gravatar"
-                     th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(message.user.email)} + '?s=40'}"></td>
+                <td>
+                    <strong>
+                        <a th:href="@{/user/{id}(id=*{user.id})}">[[*{user.firstName}]]</a>
+                    </strong>
+                </td>
 
-            <td sec:authorize="isAuthenticated()">
-                <div sec:authorize="hasAuthority('USER')">
+                <td><img id="gravatar"
+                         th:alt="gravatar"
+                         th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(message.user.email)} + '?s=40'}">
+                </td>
+
+                <td sec:authorize="isAuthenticated()">
+                    <div sec:authorize="hasAuthority('USER')">
                     <span th:if="${user_id == message.user.id}">
                         <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
                         <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
                     </span>
-                </div>
-                <div sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
-                    <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
-                </div>
-            </td>
-        </tr>
-    </table>
+                    </div>
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
+                        <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <br/>
 <div th:replace="base::footer"></div>

@@ -19,12 +19,22 @@
         <thead>
         <tr>
             <th>User</th>
+            <th>Picture</th>
             <th>User Name</th>
             <th>Email</th>
         </tr>
         </thead>
         <tr th:each="user :${users}">
-            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+            <td >
+                <strong>
+                    <a th:href="@{/user/{id}(id=${user.id})}"
+                       th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+                </strong>
+            </td>
+            <td><img id="gravatar"
+                     th:alt="gravatar"
+                     th:src="@{'http://gravatar.com/avatar/' + ${mD5Util.md5Hex(user.email)} + '?s=40'}">
+            </td>
             <td th:text="${user.username}"></td>
             <td th:text="${user.email}"></td>
         </tr>

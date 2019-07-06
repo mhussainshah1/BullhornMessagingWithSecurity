@@ -22,7 +22,7 @@
         <tr>
             <td>Posted Date:</td>
             <td>
-                <span th:text="${#temporals.format(message.postedDateTime, 'dd MMM yyyy, hh:mm')}"></span>
+                <span th:text="${#temporals.format(message.postedDateTime, 'dd MMM yyyy, hh:mm a')}"></span>
             </td>
 
         </tr>
@@ -31,7 +31,7 @@
             <td>
                 <strong>
                     <a th:href="@{/user/{id}(id=${message.user.id})}"
-                       th:text="${message.user.firstName}"></a>
+                       th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
                 </strong>
             </td>
         </tr>
