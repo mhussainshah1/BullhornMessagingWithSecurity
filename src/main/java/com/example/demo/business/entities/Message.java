@@ -30,7 +30,7 @@ public class Message {
     @Size(min = 10)
     private String content;
 
-    //@DateTimeFormat(pattern = "dd MMM yyyy, hh:mm")
+    //@DateTimeFormat(pattern = "dd MMM yyyy, hh:mm a")
     private LocalDateTime postedDateTime;
 
     @NonNull

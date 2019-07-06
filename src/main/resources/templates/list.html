@@ -14,7 +14,7 @@
         <h2> Blog Post </h2>
     </div>
     <form action="#" method="post" th:action="@{/check}">
-        <span sec:authorize="isAuthenticated()">
+        <span sec:authorize="hasAuthority('ADMIN')">
              <button class="btn btn-link" type="submit">Delete Selected</button>
         </span>
 
