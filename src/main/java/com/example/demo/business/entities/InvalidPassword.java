@@ -11,7 +11,6 @@ public class InvalidPassword {
     private long id;
 
     @Column(unique = true)
-    @Size(min = 0, max = 32)
     private String value;
 
     public InvalidPassword() {

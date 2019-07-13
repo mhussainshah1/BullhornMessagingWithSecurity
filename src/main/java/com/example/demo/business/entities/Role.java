@@ -12,7 +12,6 @@ public class Role {
     private long id;
 
     @Column(unique = true)
-    @Size(min = 0, max = 32)
     private String role;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)

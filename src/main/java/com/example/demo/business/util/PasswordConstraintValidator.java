@@ -2,7 +2,8 @@ package com.example.demo.business.util;
 //todo: change reading from datatbase rather than text file reference is on
 // http://www.passay.org/reference/
 
-import com.example.demo.business.services.PasswordService;
+import com.example.demo.business.entities.InvalidPassword;
+import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
 import org.passay.*;
 import org.passay.dictionary.ArrayWordList;
 import org.passay.dictionary.WordListDictionary;
@@ -22,7 +23,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
 
     @Autowired
-    PasswordService passwordService;
+    private InvalidPasswordRepository invalidPasswordRepository;
+
     private DictionaryRule dictionaryRule;
 
     @Override
@@ -48,16 +50,16 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
         //Option 2 : Through Database
         List<String> passwords = new ArrayList<>();
-        //passwordService.getPasswords();
+        for (InvalidPassword password : invalidPasswordRepository.findAll()) {
+            System.out.println("invalid password = " + password.getValue());
+            passwords.add(password.getValue());
+        }
 
-        passwords.add("azerty12!");
-        passwords.add("12345678!");
-        passwords.add("password123");
         Collections.sort(passwords);
 
         dictionaryRule = new DictionaryRule(
                 new WordListDictionary(
-                        new ArrayWordList(passwords.stream().toArray(String[]::new))));
+                        new ArrayWordList(passwords.toArray(new String[0]))));
     }
 
     @Override
@@ -92,7 +94,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         }
 
         List<String> messages = validator.getMessages(result);
-        String messageTemplate = messages.stream().collect(Collectors.joining(","));
+        String messageTemplate = String.join(",", messages);
         context.buildConstraintViolationWithTemplate(messageTemplate)
                 .addConstraintViolation()
                 .disableDefaultConstraintViolation();
