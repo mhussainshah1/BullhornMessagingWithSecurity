@@ -47,7 +47,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String listMessages(Model model) {
-        model.addAttribute("messages", messageRepository.findAll());//generate select * statement
+        model.addAttribute("messages", messageRepository.findAllByOrderByPostedDateTimeDesc());//generate select * statement
         //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
             model.addAttribute("user_id", userService.getUser().getId());

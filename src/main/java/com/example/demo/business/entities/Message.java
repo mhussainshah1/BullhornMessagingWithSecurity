@@ -1,5 +1,6 @@
 package com.example.demo.business.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -30,7 +31,7 @@ public class Message {
     @Size(min = 10)
     private String content;
 
-    //@DateTimeFormat(pattern = "dd MMM yyyy, hh:mm a")
+    @DateTimeFormat(pattern = "dd MMM yyyy, hh:mm a")
     private LocalDateTime postedDateTime;
 
     @NonNull
