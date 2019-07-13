@@ -78,14 +78,14 @@ public class DataLoader implements CommandLineRunner {
         Message message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
                 LocalDateTime.of(2019, 05, 15, 14, 15),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551715335/ktlpiusvm2hecfopse7y.png",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551323218/java-bootcamp/roohi_bano.jpg",
                 dave);
         messageRepository.save(message);
 
         message = new Message("Today is holiday",
                 "Dave wants to give holiday because we did good in class",
                 LocalDateTime.now(),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1550870732/blog/shah.jpg",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551473204/java-bootcamp/completed.png",
                 moe);
         messageRepository.save(message);
 
@@ -93,14 +93,14 @@ public class DataLoader implements CommandLineRunner {
                 "I am proud to be an American where at least i am free. " +
                         "I wont forget men who die gave that right to me",
                 LocalDateTime.of(2019, 07, 04, 10, 11),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551643804/Tolani%20Oyefule.jpg",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1563037288/java-bootcamp/american-flag-internal-halyard.jpg",
                 tolani);
         messageRepository.save(message);
 
         message = new Message("Valentines Day",
                 "I am still looking for someone to come in my life",
                 LocalDateTime.of(2019, 02, 14, 05, 06),
-                "https://res.cloudinary.com/mhussainshah1/image/upload/v1561973133/victor.png",
+                "https://res.cloudinary.com/mhussainshah1/image/upload/v1551323276/java-bootcamp/hebapsmsapt323cll6ak.jpg",
                 admin);
         messageRepository.save(message);
 

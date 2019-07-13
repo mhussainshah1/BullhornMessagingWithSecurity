@@ -31,7 +31,7 @@
             <td>
                 <strong>
                     <a th:href="@{/user/{id}(id=${message.user.id})}"
-                       th:text="${user.firstName} + ' ' + ${user.lastName}"></a>
+                       th:text="${message.user.firstName} + ' ' + ${message.user.lastName}"></a>
                 </strong>
             </td>
         </tr>

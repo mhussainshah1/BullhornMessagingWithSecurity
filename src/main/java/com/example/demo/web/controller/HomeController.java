@@ -50,7 +50,6 @@ public class HomeController {
         model.addAttribute("messages", messageRepository.findAllByOrderByPostedDateTimeDesc());//generate select * statement
         //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
-            model.addAttribute("user_id", userService.getUser().getId());
             model.addAttribute("user", userService.getUser());
 //            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         }
@@ -108,7 +107,7 @@ public class HomeController {
     public String showMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
-            model.addAttribute("user", userService.getUser());
+            model.addAttribute("user_id", userService.getUser().getId());
         }
         return "show";
     }

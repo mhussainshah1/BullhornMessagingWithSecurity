@@ -1,18 +1,18 @@
 New post at top (done)
 
-/
-login
-register
+/ (done)
+login (done)
+register (done)
 logout
 
 myprofile
-followers
-following
-user/{id}
-follow/{id}
-unfollow/{id}
+followers (done)
+following (done)
+user/{id} (done)
+follow/{id} (done)
+unfollow/{id} (done)
 
-add
-detail/{id}
-update/{id}
-delete/{id}
+add  (done)
+detail/{id} (done)
+update/{id} (done)
+delete/{id} (done)

@@ -56,7 +56,7 @@
 
                 <td sec:authorize="isAuthenticated()">
                     <div sec:authorize="hasAuthority('USER')">
-                    <span th:if="${user_id == message.user.id}">
+                    <span th:if="${user.id == message.user.id}">
                         <a th:href="@{/update/{id}(id=${message.id})}">edit</a> -
                         <a th:href="@{/delete/{id}(id=${message.id})}">Delete</a>
                     </span>
