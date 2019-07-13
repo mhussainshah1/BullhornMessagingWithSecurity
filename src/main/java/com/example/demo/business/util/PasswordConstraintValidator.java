@@ -1,6 +1,4 @@
 package com.example.demo.business.util;
-//todo: change reading from datatbase rather than text file reference is on
-// http://www.passay.org/reference/
 
 import com.example.demo.business.entities.InvalidPassword;
 import com.example.demo.business.entities.repositories.InvalidPasswordRepository;
@@ -9,6 +7,7 @@ import org.passay.dictionary.ArrayWordList;
 import org.passay.dictionary.WordListDictionary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -18,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+@Component
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
 
@@ -51,7 +50,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         //Option 2 : Through Database
         List<String> passwords = new ArrayList<>();
         for (InvalidPassword password : invalidPasswordRepository.findAll()) {
-            System.out.println("invalid password = " + password.getValue());
             passwords.add(password.getValue());
         }
 
