@@ -51,7 +51,6 @@ public class HomeController {
         //we need because the below statement wont run if there is no authenticate user
         if (userService.getUser() != null) {
             model.addAttribute("user", userService.getUser());
-//            model.addAttribute("HASH", MD5Util.md5Hex(userService.getUser().getEmail()));
         }
         model.addAttribute("mD5Util", new MD5Util());
         return "list";
@@ -112,7 +111,7 @@ public class HomeController {
         return "show";
     }
 
-    @PutMapping("/update/{id}")
+    @RequestMapping("/update/{id}")
     public String updateMessage(@PathVariable("id") long id, Model model) {
         model.addAttribute("message", messageRepository.findById(id).get());
         if (userService.getUser() != null) {
@@ -121,7 +120,7 @@ public class HomeController {
         return "messageform";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @RequestMapping("/delete/{id}")
     public String deleteMessage(@PathVariable("id") long id) {
         messageRepository.deleteById(id);
         return "redirect:/";

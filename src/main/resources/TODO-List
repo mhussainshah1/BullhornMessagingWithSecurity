@@ -16,3 +16,5 @@ add  (done)
 detail/{id} (done)
 update/{id} (done)
 delete/{id} (done)
+
+if picture file exceed size then it comes back on form.
