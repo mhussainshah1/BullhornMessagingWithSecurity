@@ -1,7 +1,6 @@
 package com.bullhorn.web.controller;
 
 import com.bullhorn.business.entities.User;
-import com.bullhorn.business.entities.repositories.MessageRepository;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import com.bullhorn.business.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,6 @@ import java.security.Principal;
 
 @Controller
 public class LoginController {
-    @Autowired
-    MessageRepository messageRepository;
-
     @Autowired
     UserRepository userRepository;
 
