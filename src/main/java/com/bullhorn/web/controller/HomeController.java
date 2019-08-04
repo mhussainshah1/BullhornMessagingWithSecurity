@@ -1,6 +1,5 @@
 package com.bullhorn.web.controller;
 
-import com.cloudinary.utils.ObjectUtils;
 import com.bullhorn.business.entities.Message;
 import com.bullhorn.business.entities.User;
 import com.bullhorn.business.entities.repositories.MessageRepository;
@@ -9,12 +8,12 @@ import com.bullhorn.business.services.CloudinaryConfig;
 import com.bullhorn.business.services.CustomerUserDetails;
 import com.bullhorn.business.services.UserService;
 import com.bullhorn.business.util.MD5Util;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,7 +89,7 @@ public class HomeController {
                 message.setUser(userService.getUser());
             } catch (IOException e) {
                 e.printStackTrace();
-                return "redirect:/add";
+//                return "redirect:messageform";
             }
         } else {
             //if file is empty and there is a picture path then save item

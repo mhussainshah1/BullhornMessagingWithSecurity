@@ -47,6 +47,9 @@
                     <input class="form-control-file border" id="file" name="file" type="file">
                     (Update or add new image)
                 </div>
+                <div th:if="${errorMessage}">
+                    <span class="error-message" th:text="${errorMessage}"></span>
+                </div>
             </div>
 
             <div class="form-group row" th:unless="(*{picturePath.isEmpty()})">
