@@ -16,6 +16,7 @@
 .error-message {
     color: red;
     font-style: Italic;
+    font-weight: bold;
 }
 
 /*img{
