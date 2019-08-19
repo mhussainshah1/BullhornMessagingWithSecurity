@@ -1,5 +1,7 @@
 package com.bullhorn.business.entities;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
@@ -102,13 +104,8 @@ public class Message {
         this.user = user;
     }
 
-   /* @Override
+    @Override
     public String toString() {
-        String string = "[Title = " + title +
-                ", Content = "+ content +
-                ", Posted Date = " + postedDateTime +
-                ", Posted By =" + user.getFirstName() +
-                ", Picture Path = " + picturePath +"]";
-        return  string;
-    }*/
+        return ToStringBuilder.reflectionToString(this,ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
