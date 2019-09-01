@@ -64,7 +64,7 @@ public class LoginController {
                     return "register";
                 }
 
-                User userInDB = userRepository.findById(user.getId()).get();
+                var userInDB = userRepository.findById(user.getId()).get();
                 userInDB.setFirstName(user.getFirstName());
                 userInDB.setLastName(user.getLastName());
                 userInDB.setEmail(user.getEmail());

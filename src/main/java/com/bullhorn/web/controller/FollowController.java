@@ -1,6 +1,5 @@
 package com.bullhorn.web.controller;
 
-import com.bullhorn.business.entities.User;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import com.bullhorn.business.services.UserService;
 import com.bullhorn.business.util.MD5Util;
@@ -36,19 +35,19 @@ public class FollowController {
 
     @RequestMapping("/follow/{id}")
     public String follow(@PathVariable("id") long id, Model model) {
-        User follow = userRepository.findById(id).get();
-        User myuser = userService.getUser();
-        myuser.addFollowing(follow);
-        userRepository.save(myuser);
+        var follower = userRepository.findById(id).get();
+        var user = userService.getUser();
+        user.addFollowing(follower);
+        userRepository.save(user);
         return "redirect:/";
     }
 
     @RequestMapping("/unfollow/{id}")
     public String unfollow(@PathVariable("id") long id, Model model) {
-        User follow = userRepository.findById(id).get();
-        User myuser = userService.getUser();
-        myuser.removeFollowing(follow);
-        userRepository.save(myuser);
+        var unfollower = userRepository.findById(id).get();
+        var user = userService.getUser();
+        user.removeFollowing(unfollower);
+        userRepository.save(user);
         return "redirect:/";
     }
 }

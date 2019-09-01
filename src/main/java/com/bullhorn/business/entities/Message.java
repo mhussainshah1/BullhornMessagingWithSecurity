@@ -117,6 +117,6 @@ public class Message {
 
     @Override
     public int hashCode() {
-        return (int)id + 7 * user.hashCode();
+        return (int) id + 7 * user.hashCode();
     }
 }

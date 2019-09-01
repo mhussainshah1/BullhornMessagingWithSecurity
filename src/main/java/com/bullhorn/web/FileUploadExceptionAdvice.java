@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class FileUploadExceptionAdvice {
+
     @ExceptionHandler(MultipartException.class)
     public String handleError1(MultipartException e,
                                RedirectAttributes redirectAttributes) {

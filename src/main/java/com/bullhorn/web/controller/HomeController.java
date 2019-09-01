@@ -1,7 +1,6 @@
 package com.bullhorn.web.controller;
 
 import com.bullhorn.business.entities.Message;
-import com.bullhorn.business.entities.User;
 import com.bullhorn.business.entities.repositories.MessageRepository;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import com.bullhorn.business.services.CloudinaryConfig;
@@ -72,8 +71,8 @@ public class HomeController {
         model.addAttribute("user", userService.getUser());
         //check for errors on the form
         if (result.hasErrors()) {
-        /*  for (ObjectError e : result.getAllErrors()) {
-                System.out.println(e);
+        /*  for (var objectError : result.getAllErrors()) {
+                System.out.println(objectError);
             }*/
             return "messageform";
         }
@@ -82,9 +81,9 @@ public class HomeController {
             try {
                 Map uploadResult = cloudc.upload(
                         file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
-                String url = uploadResult.get("url").toString();
-                String uploadedName = uploadResult.get("public_id").toString();
-                String transformedImage = cloudc.createUrl(uploadedName, 150, 150);
+                var url = uploadResult.get("url").toString();
+                var uploadedName = uploadResult.get("public_id").toString();
+                var transformedImage = cloudc.createUrl(uploadedName, 150, 150);
                 message.setPicturePath(transformedImage);
                 message.setUser(userService.getUser());
             } catch (IOException e) {
@@ -128,7 +127,7 @@ public class HomeController {
     @PostMapping("/check")
     public String check(@RequestParam("check") long[] ids,
                         Model model) {
-        for (long id : ids) {
+        for (var id : ids) {
             messageRepository.deleteById(id);
         }
         return "redirect:/";
@@ -141,7 +140,7 @@ public class HomeController {
 
     @RequestMapping("/myprofile")
     public String getProfile(Principal principal, Model model) {
-        User user = userService.getUser();
+        var user = userService.getUser();
         model.addAttribute("user", user);
         model.addAttribute("myuser", user);
         model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail()));
@@ -150,7 +149,7 @@ public class HomeController {
 
     @RequestMapping("/user/{id}")
     public String getUser(@PathVariable("id") long id, Model model) {
-        User user = userRepository.findById(id).get();
+        var user = userRepository.findById(id).get();
         model.addAttribute("user", user);
         model.addAttribute("myuser", userService.getUser());
         model.addAttribute("HASH", MD5Util.md5Hex(user.getEmail())); //save every person email as hash
@@ -162,7 +161,7 @@ public class HomeController {
     @RequestMapping("/secure")
     public String secure(Principal principal, Model model) {
 
-        User myuser = ((CustomerUserDetails)
+        var myuser = ((CustomerUserDetails)
                 ((UsernamePasswordAuthenticationToken) principal)
                         .getPrincipal())
                 .getUser();

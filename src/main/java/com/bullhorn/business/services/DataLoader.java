@@ -43,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
         invalidPasswordRepository.save(new InvalidPassword("12345678!"));
         invalidPasswordRepository.save(new InvalidPassword("password123"));
 
-        User dave = new User("dave45678@gmail.com",
+        var dave = new User("dave45678@gmail.com",
                 userService.encode("password"),
                 "David",
                 "Wolf",
@@ -51,7 +51,7 @@ public class DataLoader implements CommandLineRunner {
                 "dave");
         userService.saveUser(dave);
 
-        User moe = new User("mhussainshah79@gmail.com",
+        var moe = new User("mhussainshah79@gmail.com",
                 userService.encode("password"),
                 "Muhammad",
                 "Shah",
@@ -59,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
                 "moe");
         userService.saveUser(moe);
 
-        User tolani = new User("xdwr@my.qsl.ro",
+        var tolani = new User("xdwr@my.qsl.ro",
                 userService.encode("password"),
                 "Tolani",
                 "Oyefule",
@@ -67,7 +67,7 @@ public class DataLoader implements CommandLineRunner {
                 "lan");
         userService.saveUser(tolani);
 
-        User admin = new User("study.javaclass@gmail.com",
+        var admin = new User("study.javaclass@gmail.com",
                 userService.encode("password"),
                 "Admin",
                 "User",
@@ -75,7 +75,7 @@ public class DataLoader implements CommandLineRunner {
                 "admin");
         userService.saveAdmin(admin);
 
-        Message message = new Message("Mother's Day",
+        var message = new Message("Mother's Day",
                 "Happy mother day to the most loving mom in the world",
                 LocalDateTime.of(2019, 05, 15, 14, 15),
                 "https://res.cloudinary.com/mhussainshah1/image/upload/v1551323218/java-bootcamp/roohi_bano.jpg",
