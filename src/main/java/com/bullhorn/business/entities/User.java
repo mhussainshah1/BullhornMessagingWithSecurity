@@ -205,8 +205,8 @@ public class User {
         if (!(o instanceof User)) return false;
 
         User user = (User) o;
-        if (id != user.id) return false;
-        return username.equals(user.username);
+        if (this.id != user.id) return false;
+        return this.username.equals(user.username);
     }
 
     @Override
