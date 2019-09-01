@@ -1,7 +1,6 @@
 package com.bullhorn.business.entities;
 
 import com.bullhorn.business.util.ValidPassword;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -201,13 +200,12 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
 
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        return 31 * result + username.hashCode();
+        User user = (User) o;
+        if (this.id != user.id) return false;
+        return this.username.equals(user.username);
     }
 }
