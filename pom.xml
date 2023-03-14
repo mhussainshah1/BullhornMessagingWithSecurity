@@ -9,6 +9,7 @@
         <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.example</groupId>
     <artifactId>Bullhorn-with-Security</artifactId>
     <version>0.0.1-SNAPSHOT</version>
