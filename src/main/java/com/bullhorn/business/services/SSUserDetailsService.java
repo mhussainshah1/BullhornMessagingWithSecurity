@@ -2,6 +2,8 @@ package com.bullhorn.business.services;
 
 import com.bullhorn.business.entities.User;
 import com.bullhorn.business.entities.repositories.UserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 public class SSUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
+    @Autowired
     public SSUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -40,7 +42,7 @@ public class SSUserDetailsService implements UserDetailsService {
     private Set<GrantedAuthority> getAuthorities(User appUser) {
         var authorities = new HashSet<GrantedAuthority>();
         for (var role : appUser.getRoles()) {
-            var grantedAuthority = new SimpleGrantedAuthority(role.getRole());
+            var grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role.getRole());
             authorities.add(grantedAuthority);
         }
         System.out.println("User authorities are" + authorities.toString());

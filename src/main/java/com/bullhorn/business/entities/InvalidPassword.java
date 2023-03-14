@@ -1,10 +1,9 @@
 package com.bullhorn.business.entities;
 
+import jakarta.persistence.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import javax.persistence.*;
 
 @Entity
 public class InvalidPassword {

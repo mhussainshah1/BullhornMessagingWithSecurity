@@ -8,6 +8,7 @@ import com.bullhorn.business.services.CustomerUserDetails;
 import com.bullhorn.business.services.UserService;
 import com.bullhorn.business.util.MD5Util;
 import com.cloudinary.utils.ObjectUtils;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;

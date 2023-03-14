@@ -5,7 +5,6 @@ import com.bullhorn.business.entities.repositories.RoleRepository;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -52,29 +51,29 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // returns currently logged in user
+    // returns currently logged-in user
     public User getUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var currentUserName = authentication.getName();
         return userRepository.findByUsername(currentUserName);
     }
 
-    public String encode(String password) {
+/*    public String encode(String password) {
         var passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
-    }
+    }*/
 
     public boolean isAdmin() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities()
                 .stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
     }
 
     public boolean isUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities()
                 .stream()
-                .anyMatch(r -> r.getAuthority().equals("USER"));
+                .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
     }
 }

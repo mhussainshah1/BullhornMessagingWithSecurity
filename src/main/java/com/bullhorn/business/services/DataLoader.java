@@ -10,6 +10,7 @@ import com.bullhorn.business.entities.repositories.RoleRepository;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,9 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     InvalidPasswordRepository invalidPasswordRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
         roleRepository.save(new Role("USER"));
@@ -44,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
         invalidPasswordRepository.save(new InvalidPassword("password123"));
 
         var dave = new User("dave45678@gmail.com",
-                userService.encode("password"),
+                passwordEncoder.encode("password"),
                 "David",
                 "Wolf",
                 true,
@@ -52,7 +56,7 @@ public class DataLoader implements CommandLineRunner {
         userService.saveUser(dave);
 
         var moe = new User("mhussainshah79@gmail.com",
-                userService.encode("password"),
+                passwordEncoder.encode("password"),
                 "Muhammad",
                 "Shah",
                 true,
@@ -60,7 +64,7 @@ public class DataLoader implements CommandLineRunner {
         userService.saveUser(moe);
 
         var tolani = new User("xdwr@my.qsl.ro",
-                userService.encode("password"),
+                passwordEncoder.encode("password"),
                 "Tolani",
                 "Oyefule",
                 true,
@@ -68,7 +72,7 @@ public class DataLoader implements CommandLineRunner {
         userService.saveUser(tolani);
 
         var admin = new User("study.javaclass@gmail.com",
-                userService.encode("password"),
+                passwordEncoder.encode("password"),
                 "Admin",
                 "User",
                 true,

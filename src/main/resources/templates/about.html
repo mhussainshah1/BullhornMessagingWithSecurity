@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="base::header">
+<head th:replace="~{base::header}">
     <title>about</title>
 
 </head>
 
 <body>
-<div th:replace="base::nav"></div>
+<div th:replace="~{base::nav}"></div>
 
 <div class="container text-center">
     <div class="jumbotron lead">
@@ -32,7 +32,7 @@
         <div class="col-sm-6">
             <h2>Muhammad A. Shah</h2>
             <br>
-            <p>Oracle Certified Associate Java SE 8 programmer</p>
+            <p>Oracle Certified Associate Java SE 11 programmer / Spring Certified Professional</p>
             <img alt="facebook" class="icon"
                  src="https://res.cloudinary.com/mhussainshah1/image/upload/c_fill,g_face,h_42,r_50,w_42/v1550870732/blog/facebook.png"><a
                 href="https://www.facebook.com/amirhshah20">https://www.facebook.com/amirhshah20</a>
@@ -52,6 +52,6 @@
     </div>
 </div>
 
-<div th:replace="base::footer"></div>
+<div th:replace="~{base::footer}"></div>
 </body>
 </html>

@@ -3,8 +3,11 @@ package com.bullhorn.web.controller;
 import com.bullhorn.business.entities.User;
 import com.bullhorn.business.entities.repositories.UserRepository;
 import com.bullhorn.business.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -24,6 +25,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @RequestMapping("/login")
     public String login() {
@@ -69,7 +73,7 @@ public class LoginController {
                 userInDB.setLastName(user.getLastName());
                 userInDB.setEmail(user.getEmail());
                 userInDB.setUsername(user.getUsername());
-                userInDB.setPassword(userService.encode(user.getPassword()));
+                userInDB.setPassword(passwordEncoder.encode(user.getPassword()));
                 userInDB.setEnabled(user.isEnabled());
                 userRepository.save(userInDB);
                 model.addAttribute("message", "User Account Successfully Updated");
@@ -82,7 +86,7 @@ public class LoginController {
                             "We already have a username called " + user.getUsername() + "!" + " Try something else.");
                     return "register";
                 } else {
-                    user.setPassword(userService.encode(user.getPassword()));
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
                     userService.saveUser(user);
                     model.addAttribute("message", "User Account Successfully Created");
                 }
@@ -101,10 +105,10 @@ public class LoginController {
                            HttpServletRequest request,
                            Authentication authentication,
                            Principal principal) {
-       /* Boolean isAdmin = request.isUserInRole("ADMIN");
+/*        Boolean isAdmin = request.isUserInRole("ADMIN");
         Boolean isUser = request.isUserInRole("USER");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
-//        String username = principal.getName();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = principal.getName();*/
         model.addAttribute("page_title", "Update Profile");
         model.addAttribute("user", userService.getUser());
         return "register";
